@@ -85,6 +85,12 @@
     text-align:left; max-width:480px; margin-left:clamp(16px,9vw,130px); margin-right:auto;
   }
 
+  /* garante que a tela do envelope fique perfeitamente centralizada */
+  .screen[data-screen="envelope"] .screen-inner{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    width:100%; margin-left:auto; margin-right:auto;
+  }
+
   .top-label{ font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--purple-light); opacity:.85; margin-bottom:20px; }
   .top-label::before{ content:'✦ '; }
   .screen[data-screen="0"] h1{
@@ -306,7 +312,11 @@
   @keyframes sealStamp{ 0%{ transform:translate(-50%,0) scale(1.15); } 60%{ transform:translate(-50%,44px) scale(.9); } 100%{ transform:translate(-50%,44px) scale(1); } }
 
   /* ---------- ENVELOPE (SWIPE-UP LETTER) ---------- */
-  .envelope-stage{ display:flex; flex-direction:column; align-items:center; transition:opacity .5s ease, transform .5s ease; }
+  .envelope-stage{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:100%; margin:0 auto;
+    transition:opacity .5s ease, transform .5s ease;
+  }
   .envelope-stage.hide{ opacity:0; transform:translateY(-14px) scale(.96); pointer-events:none; position:absolute; left:0; right:0; }
   .envelope-scene{
     position:relative; width:270px; height:180px; margin:10px auto 26px;
@@ -350,12 +360,12 @@
     display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px;
     box-shadow:0 4px 10px rgba(0,0,0,.35);
   }
-  .swipe-guide{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .swipe-guide{ display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
   .swipe-arrow{ font-size:20px; color:var(--pink); display:inline-block; animation:swipeBounce 1.6s ease-in-out infinite; }
   @keyframes swipeBounce{ 0%,100%{ transform:translateY(0); opacity:.55; } 50%{ transform:translateY(-8px); opacity:1; } }
 
   .big-letter-stage{
-    width:100%; max-width:640px; opacity:0; transform:translateY(18px) scale(.97);
+    width:100%; max-width:640px; margin-left:auto; margin-right:auto; opacity:0; transform:translateY(18px) scale(.97);
     transition:opacity .55s ease, transform .55s ease; pointer-events:none;
   }
   .big-letter-stage.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
