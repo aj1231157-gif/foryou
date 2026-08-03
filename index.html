@@ -305,6 +305,72 @@
   .wax-seal.sealed{ cursor:default; animation:sealStamp .35s ease; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
   @keyframes sealStamp{ 0%{ transform:translate(-50%,0) scale(1.15); } 60%{ transform:translate(-50%,44px) scale(.9); } 100%{ transform:translate(-50%,44px) scale(1); } }
 
+  /* ---------- ENVELOPE (SWIPE-UP LETTER) ---------- */
+  .envelope-stage{ display:flex; flex-direction:column; align-items:center; transition:opacity .5s ease, transform .5s ease; }
+  .envelope-stage.hide{ opacity:0; transform:translateY(-14px) scale(.96); pointer-events:none; position:absolute; left:0; right:0; }
+  .envelope-scene{
+    position:relative; width:270px; height:180px; margin:10px auto 26px;
+    touch-action:none; user-select:none; cursor:grab;
+  }
+  .envelope-scene.dragging{ cursor:grabbing; }
+  .envelope-back{
+    position:absolute; inset:0; border-radius:6px; overflow:hidden;
+    background:linear-gradient(160deg,var(--purple-light),var(--purple) 60%,#3A1420);
+    box-shadow:0 22px 44px rgba(0,0,0,.4);
+  }
+  .envelope-back::before, .envelope-back::after{
+    content:''; position:absolute; bottom:0; width:0; height:0; border-style:solid;
+  }
+  .envelope-back::before{
+    left:0; border-width:0 0 90px 135px; border-color:transparent transparent rgba(255,255,255,0.07) transparent;
+  }
+  .envelope-back::after{
+    right:0; border-width:90px 0 0 135px; border-color:transparent transparent transparent rgba(0,0,0,0.16);
+  }
+  .letter-peek{
+    position:absolute; left:10px; right:10px; top:8px; height:82%; z-index:2;
+    background:var(--paper); border-radius:4px; box-shadow:0 -4px 14px rgba(0,0,0,.25);
+    transform:translateY(88%); transition:transform .55s cubic-bezier(.4,0,.2,1);
+    display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
+  }
+  .letter-peek .peek-heart{ font-size:16px; color:var(--purple); opacity:.55; }
+  .envelope-flap{
+    position:absolute; top:0; left:0; width:100%; height:56%; z-index:3;
+    background:linear-gradient(135deg,var(--purple-light),var(--purple) 70%);
+    clip-path:polygon(0 0,100% 0,50% 96%);
+    transform-origin:top center; transform:rotateX(0deg);
+    transition:transform .6s cubic-bezier(.4,0,.2,1);
+    backface-visibility:hidden;
+    box-shadow:0 6px 14px rgba(0,0,0,.3);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .envelope-seal{
+    width:38px; height:38px; border-radius:50%; margin-top:-6px;
+    background:radial-gradient(circle at 32% 28%,#F0BFAE,var(--pink) 55%,#7A2E3E 100%);
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,.35);
+  }
+  .swipe-guide{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .swipe-arrow{ font-size:20px; color:var(--pink); display:inline-block; animation:swipeBounce 1.6s ease-in-out infinite; }
+  @keyframes swipeBounce{ 0%,100%{ transform:translateY(0); opacity:.55; } 50%{ transform:translateY(-8px); opacity:1; } }
+
+  .big-letter-stage{
+    width:100%; max-width:640px; opacity:0; transform:translateY(18px) scale(.97);
+    transition:opacity .55s ease, transform .55s ease; pointer-events:none;
+  }
+  .big-letter-stage.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
+  .big-letter{
+    background:var(--paper); color:#2B1B3D; width:100%; padding:44px 40px 34px;
+    border-radius:6px 6px 4px 4px; box-shadow:0 30px 70px rgba(107,42,58,0.3); position:relative; min-height:340px;
+  }
+  .big-letter .quote-mark{ font-size:40px; color:var(--purple); opacity:.5; line-height:0; }
+  .big-letter-body{
+    font-size:19px; line-height:1.9; font-style:italic; font-family:'Fraunces',serif; margin-top:10px;
+    min-height:200px; outline:none;
+  }
+  .big-letter-body::first-letter{ font-size:2.4em; float:left; line-height:.78; padding:4px 8px 0 0; font-style:normal; font-weight:700; color:var(--purple); }
+  .big-letter .sign-off{ margin-top:26px; text-align:right; font-size:15px; opacity:.7; font-family:'Work Sans',sans-serif; outline:none; }
+
   /* ---------- TIMELINE + PULL TAB ---------- */
   .timeline{ position:relative; padding-top:6px; width:100%; }
   .timeline::before{
@@ -398,6 +464,9 @@
     .letter{ padding:28px 22px 24px; }
     .letter-body{ font-size:15.5px; }
     .hold-heart{ width:86px; height:86px; }
+    .envelope-scene{ width:88vw; max-width:270px; }
+    .big-letter{ padding:30px 22px 26px; }
+    .big-letter-body{ font-size:16.5px; }
     .tl-card{ width:calc(100% - 50px); }
     .tl-item, .tl-item.right{ flex-direction:row; }
     .tl-item.right .tl-card-inner{ text-align:left; flex-direction:row; }
@@ -542,6 +611,35 @@
             <div class="seal-target-label">arraste pra selar</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA 3.5: ENVELOPE -->
+  <section class="screen" data-screen="envelope">
+    <div class="screen-inner">
+      <h2 class="section-title">Uma Carta Especial</h2>
+      <p class="section-sub" id="envelopeSectionSub">arraste o envelope pra cima pra abrir</p>
+
+      <div class="envelope-stage" id="envelopeStage">
+        <div class="envelope-scene" id="envelopeScene">
+          <div class="envelope-back"></div>
+          <div class="letter-peek"><span class="peek-heart">♥</span></div>
+          <div class="envelope-flap" id="envelopeFlap"><div class="envelope-seal">♥</div></div>
+        </div>
+        <div class="swipe-guide">
+          <span class="swipe-arrow">↑</span>
+          <p class="hint-text" id="envelopeHint">arraste pra cima pra abrir</p>
+        </div>
+      </div>
+
+      <div class="big-letter-stage" id="bigLetterStage">
+        <div class="big-letter">
+          <div class="quote-mark">"</div>
+          <div class="big-letter-body" contenteditable="true">Escreva aqui a sua carta pra Giovanna, do jeitinho que você quiser... cada palavra sua vale mais do que qualquer coisa que eu poderia escrever.</div>
+          <div class="sign-off" contenteditable="true">— com todo o meu amor</div>
+        </div>
+        <button class="reveal-btn" id="envelopeContinueBtn" style="margin-top:22px;">continuar ♥</button>
       </div>
     </div>
   </section>
@@ -999,6 +1097,59 @@
   window.addEventListener('touchmove', sealPointerMove, {passive:false});
   window.addEventListener('mouseup', sealPointerUp);
   window.addEventListener('touchend', sealPointerUp);
+
+  /* -------- TELA ENVELOPE: arrastar pra cima pra abrir -------- */
+  const envelopeScene = document.getElementById('envelopeScene');
+  const envelopeFlap = document.getElementById('envelopeFlap');
+  const letterPeek = document.querySelector('#envelopeStage .letter-peek');
+  const envelopeStage = document.getElementById('envelopeStage');
+  const bigLetterStage = document.getElementById('bigLetterStage');
+  const envelopeHint = document.getElementById('envelopeHint');
+  const envelopeContinueBtn = document.getElementById('envelopeContinueBtn');
+  const ENVELOPE_DRAG_MAX = 120;
+  let eDragging=false, eStartY=0, eCurOffset=0, eOpened=false;
+
+  function setEnvelopeProgress(percent){
+    envelopeFlap.style.transform = `rotateX(${percent*175}deg)`;
+    letterPeek.style.transform = `translateY(${88 - percent*78}%)`;
+    envelopeScene.style.transform = `translateY(${-percent*14}px)`;
+  }
+  function envelopeDown(e){
+    if(eOpened) return;
+    eDragging=true; envelopeScene.classList.add('dragging');
+    eStartY = (e.touches? e.touches[0].clientY : e.clientY) + eCurOffset;
+    e.preventDefault();
+  }
+  function envelopeMove(e){
+    if(!eDragging||eOpened) return;
+    const y = eStartY - (e.touches? e.touches[0].clientY : e.clientY);
+    eCurOffset = Math.max(0, Math.min(ENVELOPE_DRAG_MAX, y));
+    setEnvelopeProgress(eCurOffset/ENVELOPE_DRAG_MAX);
+  }
+  function envelopeUp(){
+    if(!eDragging||eOpened) return;
+    eDragging=false; envelopeScene.classList.remove('dragging');
+    const percent = eCurOffset/ENVELOPE_DRAG_MAX;
+    if(percent >= 0.65){
+      eOpened = true;
+      setEnvelopeProgress(1);
+      envelopeHint.textContent = 'a carta abriu ♥';
+      setTimeout(()=>{
+        envelopeStage.classList.add('hide');
+        bigLetterStage.classList.add('show');
+        envelopeContinueBtn.classList.add('show');
+      }, 550);
+    } else {
+      eCurOffset = 0; setEnvelopeProgress(0);
+    }
+  }
+  envelopeScene.addEventListener('mousedown', envelopeDown);
+  envelopeScene.addEventListener('touchstart', envelopeDown, {passive:false});
+  window.addEventListener('mousemove', envelopeMove);
+  window.addEventListener('touchmove', envelopeMove, {passive:false});
+  window.addEventListener('mouseup', envelopeUp);
+  window.addEventListener('touchend', envelopeUp);
+  envelopeContinueBtn.addEventListener('click', ()=> advance(150));
 
   /* -------- TELA 4: pull tab + timeline reveal -------- */
   const pullTrack = document.getElementById('pullTrack');
