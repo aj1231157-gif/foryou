@@ -311,6 +311,80 @@
   .wax-seal.sealed{ cursor:default; animation:sealStamp .35s ease; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
   @keyframes sealStamp{ 0%{ transform:translate(-50%,0) scale(1.15); } 60%{ transform:translate(-50%,44px) scale(.9); } 100%{ transform:translate(-50%,44px) scale(1); } }
 
+  /* ---------- DINNER SCENE (DAMA & VAGABUNDO) ---------- */
+  .dinner-scene{ display:flex; flex-direction:column; align-items:center; gap:20px; }
+  .dinner-table{
+    position:relative; width:100%; max-width:420px; padding:38px 20px 26px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.18));
+    border:1px solid var(--card-border); border-radius:18px; overflow:hidden;
+    box-shadow:0 20px 44px rgba(0,0,0,0.35);
+  }
+  .dinner-table::before{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:44%; z-index:1;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(232,167,152,0.16) 0 10px, transparent 10px 20px),
+      repeating-linear-gradient(-45deg, rgba(232,167,152,0.16) 0 10px, transparent 10px 20px);
+    opacity:.6;
+  }
+  .restaurant-bg{ position:absolute; inset:0; width:100%; height:100%; z-index:0; display:block; }
+  .candle{ position:relative; width:11px; height:36px; margin:0 auto 6px; background:linear-gradient(180deg,#F3E8DA,#d8c6ad); border-radius:2px 2px 3px 3px; z-index:2; }
+  .candle::before{ content:''; position:absolute; top:-3px; left:50%; transform:translateX(-50%); width:2px; height:6px; background:#5a4a36; }
+  .flame{
+    position:absolute; top:-15px; left:50%; transform:translateX(-50%);
+    width:9px; height:17px; border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    background:radial-gradient(circle at 50% 32%, #FFEBB4, var(--pink) 62%, transparent 72%);
+    animation:flameFlicker 1.5s ease-in-out infinite; filter:blur(.2px);
+  }
+  @keyframes flameFlicker{ 0%,100%{ transform:translateX(-50%) scale(1) rotate(-3deg); } 50%{ transform:translateX(-50%) scale(1.14) rotate(4deg); } }
+  .plate-wrap{ position:relative; z-index:2; }
+  .dinner-plate{ width:100%; height:auto; display:block; }
+  .plate{ fill:#FAF6EF; stroke:rgba(0,0,0,0.08); stroke-width:2; }
+  .plate-rim{ fill:none; stroke:rgba(0,0,0,0.07); stroke-width:1.5; }
+  .strand{ fill:none; stroke:#F0C879; stroke-width:4; stroke-linecap:round; transition:opacity .3s ease; }
+  .meatball{ fill:#7A3B2E; }
+  .fur-l{ fill:#8B5A2B; }
+  .fur-r{ fill:#E3C9A0; }
+  .fur-r-ear{ fill:#C9A16D; }
+  .eye{ fill:#241407; }
+  .bow{ fill:none; stroke:var(--purple-light); stroke-width:3; stroke-linecap:round; }
+  .dog-left, .dog-right{ transform-box: fill-box; }
+  .dinner-heart{
+    position:absolute; left:50%; top:38%; transform:translate(-50%,-50%) scale(.4);
+    font-size:0; color:var(--pink); opacity:0; pointer-events:none; z-index:3;
+    filter:drop-shadow(0 0 8px rgba(232,167,152,0.7));
+  }
+  .dinner-scene.kissed .dinner-heart{ font-size:28px; opacity:1; animation:dinnerHeartPop 1.3s ease forwards; }
+  @keyframes dinnerHeartPop{
+    0%{ transform:translate(-50%,-50%) scale(.3); opacity:0; }
+    35%{ transform:translate(-50%,-80%) scale(1.2); opacity:1; }
+    100%{ transform:translate(-50%,-140%) scale(1); opacity:0; }
+  }
+  .video-frame{
+    position:relative; border-radius:12px; overflow:hidden; cursor:pointer;
+    box-shadow:0 10px 26px rgba(0,0,0,0.35);
+  }
+  .video-play-overlay{
+    position:absolute; inset:0; z-index:10; width:100%; height:100%;
+    background:rgba(10,6,8,0.32); border:none; margin:0; padding:0;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:opacity .4s ease, background .3s ease;
+  }
+  .video-play-overlay:hover{ background:rgba(10,6,8,0.4); }
+  .video-play-overlay.hide{ opacity:0; pointer-events:none; }
+  .play-icon{
+    width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.94);
+    color:var(--purple); display:flex; align-items:center; justify-content:center;
+    font-size:20px; padding-left:3px; box-shadow:0 8px 22px rgba(0,0,0,.4);
+    transition:transform .2s ease; pointer-events:none;
+  }
+  .video-play-overlay:hover .play-icon{ transform:scale(1.09); }
+  .video-caption{
+    position:absolute; left:10px; bottom:8px; z-index:10; font-size:10.5px; letter-spacing:1px;
+    color:rgba(255,255,255,0.8); text-transform:uppercase; background:rgba(0,0,0,0.35);
+    padding:3px 8px; border-radius:20px; pointer-events:none; transition:opacity .3s ease;
+  }
+  .video-caption.hide{ opacity:0; }
+
   /* ---------- ENVELOPE (SWIPE-UP LETTER) ---------- */
   .envelope-stage{
     display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -474,6 +548,7 @@
     .letter{ padding:28px 22px 24px; }
     .letter-body{ font-size:15.5px; }
     .hold-heart{ width:86px; height:86px; }
+    .dinner-table{ padding:30px 14px 20px; }
     .envelope-scene{ width:88vw; max-width:270px; }
     .big-letter{ padding:30px 22px 26px; }
     .big-letter-body{ font-size:16.5px; }
@@ -622,6 +697,88 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- TELA 3.6: JANTAR (DAMA & VAGABUNDO) -->
+  <section class="screen" data-screen="dinner">
+    <div class="screen-inner">
+      <h2 class="section-title">Nosso Jantarzinho</h2>
+      <p class="section-sub">um jantar à luz de velas, só nosso</p>
+      <div class="dinner-scene" id="dinnerScene">
+        <div class="dinner-table video-frame" id="dinnerVideoFrame">
+          <svg class="restaurant-bg" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3A1F1A"/>
+                <stop offset="55%" stop-color="#241210"/>
+                <stop offset="100%" stop-color="#160B09"/>
+              </linearGradient>
+              <radialGradient id="bokeh" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#F0C879" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#F0C879" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="blurSoft" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.6"/>
+              </filter>
+            </defs>
+            <rect x="0" y="0" width="300" height="160" fill="url(#wallGrad)"/>
+            <circle cx="30" cy="48" r="22" fill="url(#bokeh)" opacity="0.45"/>
+            <circle cx="270" cy="52" r="26" fill="url(#bokeh)" opacity="0.4"/>
+            <circle cx="150" cy="20" r="34" fill="url(#bokeh)" opacity="0.3"/>
+            <g opacity="0.45" filter="url(#blurSoft)">
+              <rect x="25" y="90" width="20" height="24" rx="2" fill="#4A2A22"/>
+              <ellipse cx="35" cy="122" rx="18" ry="5" fill="#000" opacity="0.35"/>
+              <rect x="255" y="90" width="20" height="24" rx="2" fill="#4A2A22"/>
+              <ellipse cx="265" cy="122" rx="18" ry="5" fill="#000" opacity="0.35"/>
+            </g>
+            <path d="M0,18 Q75,42 150,18 T300,18" fill="none" stroke="rgba(240,200,121,0.35)" stroke-width="1"/>
+            <g fill="#F5D48A">
+              <circle cx="10" cy="19" r="2.4"/>
+              <circle cx="45" cy="31" r="2.4"/>
+              <circle cx="80" cy="36" r="2.4"/>
+              <circle cx="115" cy="27" r="2.4"/>
+              <circle cx="150" cy="18" r="2.4"/>
+              <circle cx="185" cy="27" r="2.4"/>
+              <circle cx="220" cy="36" r="2.4"/>
+              <circle cx="255" cy="31" r="2.4"/>
+              <circle cx="290" cy="19" r="2.4"/>
+            </g>
+            <line x1="0" y1="132" x2="300" y2="132" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          </svg>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="plate-wrap">
+            <div class="dinner-heart">♥</div>
+            <svg class="dinner-plate" viewBox="0 0 300 160">
+              <ellipse class="plate" cx="150" cy="97" rx="92" ry="40"/>
+              <ellipse class="plate-rim" cx="150" cy="97" rx="74" ry="30"/>
+              <path id="noodleStrand" class="strand" d="M120,86 C140,62 160,62 181,86"/>
+              <circle class="meatball" cx="130" cy="102" r="8"/>
+              <circle class="meatball" cx="170" cy="102" r="8"/>
+              <circle class="meatball" cx="150" cy="110" r="7"/>
+              <g class="dog dog-left">
+                <ellipse cx="76" cy="78" rx="34" ry="27" class="fur-l"/>
+                <path d="M48,58 Q30,32 60,40 Z" class="fur-l"/>
+                <ellipse cx="105" cy="86" rx="15" ry="10" class="fur-l"/>
+                <circle cx="66" cy="70" r="3.2" class="eye"/>
+              </g>
+              <g class="dog dog-right">
+                <ellipse cx="224" cy="78" rx="32" ry="25" class="fur-r"/>
+                <path d="M252,58 Q280,74 256,98 Q242,92 246,66 Z" class="fur-r-ear"/>
+                <ellipse cx="195" cy="86" rx="14" ry="9" class="fur-r"/>
+                <circle cx="234" cy="70" r="3" class="eye"/>
+                <path d="M199,54 q7,-9 15,0" class="bow"/>
+              </g>
+            </svg>
+          </div>
+          <span class="video-caption" id="dinnerCaption">▶ 00:02</span>
+          <button class="video-play-overlay" id="playDinner" type="button" aria-label="assistir nosso jantar">
+            <span class="play-icon">▶</span>
+          </button>
+        </div>
+      </div>
+      <p class="hint-text" id="dinnerHint">clique no vídeo pra assistir nosso momento</p>
+      <button class="reveal-btn" id="dinnerContinueBtn">continuar ♥</button>
     </div>
   </section>
 
@@ -1107,6 +1264,68 @@
   window.addEventListener('touchmove', sealPointerMove, {passive:false});
   window.addEventListener('mouseup', sealPointerUp);
   window.addEventListener('touchend', sealPointerUp);
+
+  /* -------- TELA 3.6: jantar (macarrão de verdade entre as bocas) -------- */
+  const dinnerScene = document.getElementById('dinnerScene');
+  const playDinnerBtn = document.getElementById('playDinner');
+  const dinnerCaption = document.getElementById('dinnerCaption');
+  const dinnerHint = document.getElementById('dinnerHint');
+  const dinnerContinueBtn = document.getElementById('dinnerContinueBtn');
+  let dinnerPlayed = false;
+
+  function playDinnerScene(){
+    if(dinnerPlayed) return;
+    dinnerPlayed = true;
+    playDinnerBtn.classList.add('hide');
+    if(dinnerCaption) dinnerCaption.classList.add('hide');
+    dinnerHint.textContent = 'assistindo...';
+
+    const dogLeft = dinnerScene.querySelector('.dog-left');
+    const dogRight = dinnerScene.querySelector('.dog-right');
+    const noodle = document.getElementById('noodleStrand');
+    dogLeft.style.transition = 'none';
+    dogRight.style.transition = 'none';
+
+    const DELTA = 32;
+    const LEFT_MOUTH_X0 = 120, RIGHT_MOUTH_X0 = 181, MOUTH_Y = 86;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DURATION = reduce ? 1200 : 4800;
+    let t0 = null;
+
+    function easeInOutQuad(x){ return x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x + 2, 2) / 2; }
+
+    function frame(ts){
+      if(t0===null) t0 = ts;
+      const raw = Math.min((ts - t0) / DURATION, 1);
+      const p = easeInOutQuad(raw);
+
+      const lx = LEFT_MOUTH_X0 + DELTA * p;
+      const rx = RIGHT_MOUTH_X0 - DELTA * p;
+      const arc = 24 * (1 - p);
+      const cx1 = lx + (rx - lx) * 0.33;
+      const cx2 = lx + (rx - lx) * 0.66;
+      const topY = MOUTH_Y - arc;
+      noodle.setAttribute('d', `M${lx},${MOUTH_Y} C${cx1},${topY} ${cx2},${topY} ${rx},${MOUTH_Y}`);
+
+      dogLeft.style.transform = `translateX(${DELTA * p}px)`;
+      dogRight.style.transform = `translateX(${-DELTA * p}px)`;
+
+      if(raw < 1){
+        requestAnimationFrame(frame);
+      } else {
+        noodle.style.opacity = '0';
+        dinnerScene.classList.add('kissed');
+        dinnerHint.textContent = 'até os cachorros sabem: comida boa é melhor a dois ♥';
+        dinnerContinueBtn.classList.add('show');
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  if(playDinnerBtn){
+    playDinnerBtn.addEventListener('click', playDinnerScene);
+    playDinnerBtn.addEventListener('touchend', function(e){ e.preventDefault(); playDinnerScene(); }, {passive:false});
+  }
+  dinnerContinueBtn.addEventListener('click', ()=> advance(150));
 
   /* -------- TELA ENVELOPE: arrastar pra cima pra abrir -------- */
   const envelopeScene = document.getElementById('envelopeScene');
