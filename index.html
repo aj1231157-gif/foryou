@@ -732,6 +732,79 @@
     50%{ box-shadow:0 0 28px rgba(232,167,152,0.85), 0 10px 30px rgba(107,42,58,0.5); }
   }
 
+  /* ---------- ROLETA DO QUE FAZER ---------- */
+  .roleta-wrap{ position:relative; display:flex; flex-direction:column; align-items:center; margin-top:8px; }
+  .roleta-pointer{
+    position:relative; z-index:5; font-size:28px; line-height:1; color:var(--pink); margin-bottom:-6px;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,0.45));
+  }
+  .roleta-outer{
+    position:relative; width:min(400px,88vw); height:min(400px,88vw); border-radius:50%;
+    box-shadow:0 20px 50px rgba(0,0,0,0.45), 0 0 0 7px rgba(255,255,255,0.06), 0 0 0 8px var(--card-border);
+  }
+  .roleta-wheel{
+    position:absolute; inset:0; border-radius:50%; overflow:hidden;
+    background:conic-gradient(#7A1F2E 0deg 40deg, #9C3524 40deg 80deg, #B5502A 80deg 120deg, #C97A2E 120deg 160deg, #C99A3A 160deg 200deg, #4F6A4A 200deg 240deg, #435A73 240deg 280deg, #4A3F6B 280deg 320deg, #7A3F66 320deg 360deg);
+    transform:rotate(0deg);
+    transition:transform 4.6s cubic-bezier(.14,.68,.18,1);
+    will-change:transform;
+  }
+  .roleta-slice{ position:absolute; inset:0; display:flex; justify-content:center; align-items:flex-start; pointer-events:none; }
+  .roleta-slice-0{ transform:rotate(20deg); }
+  .roleta-slice-1{ transform:rotate(60deg); }
+  .roleta-slice-2{ transform:rotate(100deg); }
+  .roleta-slice-3{ transform:rotate(140deg); }
+  .roleta-slice-4{ transform:rotate(180deg); }
+  .roleta-slice-5{ transform:rotate(220deg); }
+  .roleta-slice-6{ transform:rotate(260deg); }
+  .roleta-slice-7{ transform:rotate(300deg); }
+  .roleta-slice-8{ transform:rotate(340deg); }
+  .roleta-slice-label{
+    margin-top:9%; width:78px; text-align:center; font-size:9.5px; line-height:1.2;
+    font-family:'Work Sans',sans-serif; font-weight:600; color:#fff;
+    text-shadow:0 1px 4px rgba(0,0,0,0.55);
+  }
+  .roleta-slice-0 .roleta-slice-label{ transform:rotate(-20deg); }
+  .roleta-slice-1 .roleta-slice-label{ transform:rotate(-60deg); }
+  .roleta-slice-2 .roleta-slice-label{ transform:rotate(-100deg); }
+  .roleta-slice-3 .roleta-slice-label{ transform:rotate(-140deg); }
+  .roleta-slice-4 .roleta-slice-label{ transform:rotate(-180deg); }
+  .roleta-slice-5 .roleta-slice-label{ transform:rotate(-220deg); }
+  .roleta-slice-6 .roleta-slice-label{ transform:rotate(-260deg); }
+  .roleta-slice-7 .roleta-slice-label{ transform:rotate(-300deg); }
+  .roleta-slice-8 .roleta-slice-label{ transform:rotate(-340deg); }
+  .roleta-hub{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:4;
+    width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,var(--purple),var(--pink)); color:#fff; font-size:19px;
+    box-shadow:0 0 0 4px rgba(255,255,255,0.12), 0 10px 20px rgba(0,0,0,0.4);
+  }
+  .roleta-spin-btn{
+    margin-top:30px; background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border:none;
+    border-radius:30px; padding:16px 36px; font-size:14.5px; font-weight:700; letter-spacing:.5px;
+    font-family:'Work Sans',sans-serif; cursor:pointer; box-shadow:0 14px 30px rgba(107,42,58,0.45);
+    transition:transform .2s ease, opacity .3s ease, box-shadow .3s ease;
+  }
+  .roleta-spin-btn:hover{ transform:translateY(-2px); box-shadow:0 18px 36px rgba(232,167,152,0.4); }
+  .roleta-spin-btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
+  .roleta-result{
+    margin-top:28px; text-align:center; opacity:0; transform:translateY(14px) scale(.94);
+    pointer-events:none; transition:opacity .5s ease, transform .5s ease;
+  }
+  .roleta-result.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; animation:popIn .5s ease; }
+  .roleta-result-lead{ font-size:12.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+  .roleta-result-value{
+    font-family:'Fraunces',serif; font-style:italic; font-size:clamp(21px,5vw,30px); color:var(--pink);
+    margin-bottom:22px; line-height:1.35;
+  }
+  .roleta-again-btn{
+    background:transparent; border:1px solid var(--card-border); color:var(--text);
+    padding:11px 26px; border-radius:30px; cursor:pointer; font-size:13px; font-family:'Work Sans',sans-serif;
+    transition:border-color .25s, color .25s;
+  }
+  .roleta-again-btn:hover{ border-color:var(--pink); color:var(--pink); }
+  .roleta-hearts-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+
   @media(max-width:640px){
     .screen{ padding:64px 16px 40px; }
     .cbox{ padding:16px 18px; min-width:78px; }
@@ -1042,11 +1115,9 @@
           <span class="soon-tag">Em breve</span>
         </button>
 
-        <button class="game-card locked" data-soon type="button">
-          <span class="lock-badge">🔒</span>
+        <button class="game-card" data-jump="roleta" type="button">
           <span class="game-icon" style="background:linear-gradient(160deg,#590503,#E8A798);">🎁</span>
           <span class="game-label">Roleta do que Fazer</span>
-          <span class="soon-tag">Em breve</span>
         </button>
       </div>
 
@@ -1172,6 +1243,40 @@
           <div class="quiz-modal-body" id="quizModalBody">
             <!-- perguntas e resultado são injetados aqui via JS -->
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA ROLETA DO QUE FAZER (sub-tela do Mini Games, fora do fluxo principal) -->
+  <section class="screen" data-screen="roleta" data-sub="true">
+    <div class="screen-inner">
+      <h2 class="section-title">Roleta do que Fazer</h2>
+      <p class="section-sub">gira a roleta e deixa o destino escolher nosso programa ♥</p>
+
+      <div class="roleta-wrap">
+        <div class="roleta-hearts-bg" id="roletaHeartsBg"></div>
+        <div class="roleta-pointer">▼</div>
+        <div class="roleta-outer">
+          <div class="roleta-wheel" id="roletaWheel">
+            <div class="roleta-slice roleta-slice-0"><span class="roleta-slice-label">🎮 Jogar<br>Roblox</span></div>
+            <div class="roleta-slice roleta-slice-1"><span class="roleta-slice-label">⛏️ Jogar<br>Minecraft</span></div>
+            <div class="roleta-slice roleta-slice-2"><span class="roleta-slice-label">🎬 Ver um<br>filme</span></div>
+            <div class="roleta-slice roleta-slice-3"><span class="roleta-slice-label">🍜 Fazer algo<br>juntos para<br>comer</span></div>
+            <div class="roleta-slice roleta-slice-4"><span class="roleta-slice-label">📺 Assistir<br>desenho</span></div>
+            <div class="roleta-slice roleta-slice-5"><span class="roleta-slice-label">📅 Planejar<br>futuro</span></div>
+            <div class="roleta-slice roleta-slice-6"><span class="roleta-slice-label">📍 Planejar<br>nosso próximo<br>passeio</span></div>
+            <div class="roleta-slice roleta-slice-7"><span class="roleta-slice-label">👀 Me ver<br>jogar</span></div>
+            <div class="roleta-slice roleta-slice-8"><span class="roleta-slice-label">🤗 Abraço de<br>5 minutos<br>juntos</span></div>
+          </div>
+          <div class="roleta-hub">♥</div>
+        </div>
+        <button class="roleta-spin-btn" id="roletaSpinBtn" type="button">GIRAR A ROLETA 💕</button>
+
+        <div class="roleta-result" id="roletaResult">
+          <p class="roleta-result-lead">Nosso programa é... 💕</p>
+          <div class="roleta-result-value" id="roletaResultValue"></div>
+          <button class="roleta-again-btn" id="roletaAgainBtn" type="button">GIRAR NOVAMENTE 🔄</button>
         </div>
       </div>
     </div>
@@ -1830,6 +1935,111 @@
     continueBtn.addEventListener('click', ()=>{
       setTimeout(()=>{ if(window.miniGames) window.miniGames.closeSubScreen('puzzle'); }, 150);
     });
+  })();
+
+  /* -------- ROLETA DO QUE FAZER -------- */
+  (function(){
+    const wheel = document.getElementById('roletaWheel');
+    const spinBtn = document.getElementById('roletaSpinBtn');
+    const againBtn = document.getElementById('roletaAgainBtn');
+    const resultBox = document.getElementById('roletaResult');
+    const resultValue = document.getElementById('roletaResultValue');
+    const heartsLayer = document.getElementById('roletaHeartsBg');
+    const roletaScreenEl = document.querySelector('.screen[data-screen="roleta"]');
+    if(!wheel || !spinBtn) return;
+
+    const SLICE_DEG = 40;
+    const OPTIONS = [
+      { emoji:'🎮', label:'Jogar Roblox' },
+      { emoji:'⛏️', label:'Jogar Minecraft' },
+      { emoji:'🎬', label:'Ver um filme' },
+      { emoji:'🍜', label:'Fazer algo juntos para comer' },
+      { emoji:'📺', label:'Assistir desenho' },
+      { emoji:'📅', label:'Planejar futuro' },
+      { emoji:'📍', label:'Planejar nosso próximo passeio' },
+      { emoji:'👀', label:'Me ver jogar' },
+      { emoji:'🤗', label:'Abraço de 5 minutos juntos' }
+    ];
+
+    let totalRotation = 0;
+    let spinning = false;
+    let heartInterval = null;
+    let heartsStarted = false;
+
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'qh-heart';
+      h.textContent = '♥';
+      h.style.left = (Math.random()*100) + '%';
+      h.style.setProperty('--drift', (Math.random()*60-30) + 'px');
+      h.style.animationDuration = (5 + Math.random()*4) + 's';
+      h.style.fontSize = (12 + Math.random()*14) + 'px';
+      heartsLayer.appendChild(h);
+      setTimeout(()=> h.remove(), 9500);
+    }
+
+    function startHearts(){
+      if(heartsStarted) return;
+      heartsStarted = true;
+      heartInterval = setInterval(spawnHeart, 900);
+    }
+
+    function spawnRoletaConfetti(){
+      const layer = document.createElement('div');
+      layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:500;overflow:hidden;';
+      document.body.appendChild(layer);
+      for(let i=0;i<26;i++){
+        const heart = document.createElement('div');
+        heart.textContent = '♥';
+        const size = 12 + Math.random()*18;
+        const color = Math.random() > 0.5 ? '#E8A798' : '#B4657A';
+        const dur = 3 + Math.random()*2.5;
+        const delay = Math.random()*0.6;
+        heart.style.cssText = `position:absolute; top:-40px; left:${Math.random()*100}%; font-size:${size}px; color:${color}; opacity:${0.5+Math.random()*0.5}; animation:confettiFall ${dur}s ease-in ${delay}s forwards;`;
+        layer.appendChild(heart);
+      }
+      setTimeout(()=> layer.remove(), 6200);
+    }
+
+    function spin(){
+      if(spinning) return;
+      spinning = true;
+      spinBtn.disabled = true;
+      resultBox.classList.remove('show');
+
+      const chosenIndex = Math.floor(Math.random()*OPTIONS.length);
+      const targetSliceCenter = chosenIndex*SLICE_DEG + SLICE_DEG/2;
+      const extraSpins = 6 + Math.floor(Math.random()*3); // 6 a 8 voltas completas
+      const currentMod = totalRotation % 360;
+      const desiredMod = (360 - targetSliceCenter) % 360;
+      let delta = desiredMod - currentMod;
+      if(delta <= 0) delta += 360;
+      const wobble = (Math.random()*16 - 8); // pequena variação, sempre dentro da fatia (±8°)
+
+      totalRotation += extraSpins*360 + delta + wobble;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+      setTimeout(()=>{
+        spinning = false;
+        spinBtn.disabled = false;
+        const opt = OPTIONS[chosenIndex];
+        resultValue.innerHTML = `${opt.emoji} ${opt.label.toUpperCase()}`;
+        resultBox.classList.add('show');
+        spawnRoletaConfetti();
+      }, 4700);
+    }
+
+    spinBtn.addEventListener('click', spin);
+    if(againBtn) againBtn.addEventListener('click', spin);
+
+    // corações flutuantes só começam quando o usuário entra nessa sub-tela
+    if(roletaScreenEl){
+      const roletaObserver = new MutationObserver(()=>{
+        if(roletaScreenEl.classList.contains('active')) startHearts();
+      });
+      roletaObserver.observe(roletaScreenEl, { attributes:true, attributeFilter:['class'] });
+      if(roletaScreenEl.classList.contains('active')) startHearts();
+    }
   })();
 
   /* -------- TELA ENVELOPE: arrastar pra cima pra abrir -------- */
