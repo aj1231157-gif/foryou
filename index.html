@@ -805,6 +805,80 @@
   .roleta-again-btn:hover{ border-color:var(--pink); color:var(--pink); }
   .roleta-hearts-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
 
+  /* ---------- DESAFIO DO CASAL (DADO 3D) ---------- */
+  .desafio-wrap{ position:relative; display:flex; flex-direction:column; align-items:center; margin-top:8px; }
+  .desafio-hearts-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .desafio-intro{ font-family:'Fraunces',serif; font-style:italic; color:var(--pink); font-size:clamp(16px,3.4vw,20px); margin:0 0 4px; text-align:center; position:relative; z-index:1; }
+  .desafio-subintro{ color:var(--text-dim); font-size:13px; margin:0 0 34px; text-align:center; position:relative; z-index:1; }
+
+  .dice-stage{
+    position:relative; z-index:1; width:150px; height:150px; perspective:900px; margin:0 auto;
+    filter:drop-shadow(0 22px 30px rgba(0,0,0,0.5));
+  }
+  .dice-cube{
+    position:relative; width:100%; height:100%;
+    transform-style:preserve-3d;
+    transform:rotateX(-24deg) rotateY(35deg) rotateZ(0deg);
+    transition:transform 2.5s cubic-bezier(.2,.68,.2,1);
+  }
+  .dice-cube.rolling{ transition:transform 2.5s cubic-bezier(.34,.62,.24,1); }
+  .dice-face{
+    position:absolute; top:0; left:0; width:150px; height:150px; border-radius:20px;
+    background:linear-gradient(155deg,#B4657A,#590503 78%);
+    border:1px solid rgba(255,255,255,0.28);
+    box-shadow:inset 0 3px 10px rgba(255,255,255,0.35), inset 0 -14px 22px rgba(0,0,0,0.4);
+    display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr);
+    grid-template-areas:"a b c" "d e f" "g h i";
+    padding:20px; box-sizing:border-box;
+    backface-visibility:hidden;
+  }
+  .dice-face-1{ transform:translateZ(75px); }
+  .dice-face-6{ transform:rotateY(180deg) translateZ(75px); }
+  .dice-face-2{ transform:rotateY(90deg) translateZ(75px); }
+  .dice-face-5{ transform:rotateY(-90deg) translateZ(75px); }
+  .dice-face-3{ transform:rotateX(90deg) translateZ(75px); }
+  .dice-face-4{ transform:rotateX(-90deg) translateZ(75px); }
+  .dice-pip{
+    width:20px; height:20px; border-radius:50%; justify-self:center; align-self:center;
+    background:radial-gradient(circle at 32% 30%, #FBEDE4, var(--paper) 55%, #C9A98F 100%);
+    box-shadow:0 2px 4px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.6);
+  }
+  .pip-a{ grid-area:a; } .pip-b{ grid-area:b; } .pip-c{ grid-area:c; }
+  .pip-d{ grid-area:d; } .pip-e{ grid-area:e; } .pip-f{ grid-area:f; }
+  .pip-g{ grid-area:g; } .pip-h{ grid-area:h; } .pip-i{ grid-area:i; }
+
+  .dice-roll-btn{
+    margin-top:44px; background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border:none;
+    border-radius:30px; padding:16px 44px; font-size:14.5px; font-weight:700; letter-spacing:1px;
+    font-family:'Work Sans',sans-serif; cursor:pointer; box-shadow:0 14px 30px rgba(107,42,58,0.45);
+    transition:transform .2s ease, opacity .3s ease, box-shadow .3s ease; position:relative; z-index:1;
+  }
+  .dice-roll-btn:hover{ transform:translateY(-2px); box-shadow:0 18px 36px rgba(232,167,152,0.4); }
+  .dice-roll-btn:active{ transform:translateY(0) scale(.97); }
+  .dice-roll-btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
+
+  .dice-result{
+    margin-top:30px; text-align:center; opacity:0; transform:translateY(14px) scale(.94);
+    pointer-events:none; transition:opacity .5s ease, transform .5s ease; position:relative; z-index:1;
+    max-width:420px; padding:0 12px;
+  }
+  .dice-result.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; animation:popIn .5s ease; }
+  .dice-result-lead{ font-size:12.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); margin-bottom:12px; }
+  .dice-result-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:18px;
+    padding:20px 26px; box-shadow:0 14px 30px rgba(0,0,0,0.35);
+  }
+  .dice-result-value{
+    font-family:'Fraunces',serif; font-style:italic; font-size:clamp(19px,4.6vw,26px); color:var(--pink);
+    line-height:1.4;
+  }
+  .dice-again-btn{
+    margin-top:22px; background:transparent; border:1px solid var(--card-border); color:var(--text);
+    padding:11px 26px; border-radius:30px; cursor:pointer; font-size:13px; font-family:'Work Sans',sans-serif;
+    transition:border-color .25s, color .25s;
+  }
+  .dice-again-btn:hover{ border-color:var(--pink); color:var(--pink); }
+
   @media(max-width:640px){
     .screen{ padding:64px 16px 40px; }
     .cbox{ padding:16px 18px; min-width:78px; }
@@ -1108,11 +1182,9 @@
           <span class="soon-tag">Em breve</span>
         </button>
 
-        <button class="game-card locked" data-soon type="button">
-          <span class="lock-badge">🔒</span>
+        <button class="game-card" data-jump="desafio" type="button">
           <span class="game-icon" style="background:linear-gradient(160deg,#4D3A1F,#A0754F);">🎲</span>
           <span class="game-label">Desafio do Casal</span>
-          <span class="soon-tag">Em breve</span>
         </button>
 
         <button class="game-card" data-jump="roleta" type="button">
@@ -1279,6 +1351,59 @@
           <button class="roleta-again-btn" id="roletaAgainBtn" type="button">GIRAR NOVAMENTE 🔄</button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- TELA DESAFIO DO CASAL (sub-tela do Mini Games) -->
+  <section class="screen" data-screen="desafio" data-sub="true">
+    <div class="screen-inner">
+      <h2 class="section-title">Desafio do Casal</h2>
+      <p class="section-sub">gira o dado e descubra a prenda que vai valer 😏</p>
+
+      <div class="desafio-wrap">
+        <div class="desafio-hearts-bg" id="desafioHeartsBg"></div>
+        <p class="desafio-intro" id="desafioIntro">Quem será que vai pagar a prenda? 🎲❤️</p>
+        <p class="desafio-subintro" id="desafioSubintro">Clique em GIRAR e descubra o seu desafio!</p>
+
+        <div class="dice-stage">
+          <div class="dice-cube" id="diceCube">
+            <div class="dice-face dice-face-1">
+              <span class="dice-pip pip-e"></span>
+            </div>
+            <div class="dice-face dice-face-2">
+              <span class="dice-pip pip-a"></span><span class="dice-pip pip-i"></span>
+            </div>
+            <div class="dice-face dice-face-3">
+              <span class="dice-pip pip-a"></span><span class="dice-pip pip-e"></span><span class="dice-pip pip-i"></span>
+            </div>
+            <div class="dice-face dice-face-4">
+              <span class="dice-pip pip-a"></span><span class="dice-pip pip-c"></span>
+              <span class="dice-pip pip-g"></span><span class="dice-pip pip-i"></span>
+            </div>
+            <div class="dice-face dice-face-5">
+              <span class="dice-pip pip-a"></span><span class="dice-pip pip-c"></span><span class="dice-pip pip-e"></span>
+              <span class="dice-pip pip-g"></span><span class="dice-pip pip-i"></span>
+            </div>
+            <div class="dice-face dice-face-6">
+              <span class="dice-pip pip-a"></span><span class="dice-pip pip-c"></span>
+              <span class="dice-pip pip-d"></span><span class="dice-pip pip-f"></span>
+              <span class="dice-pip pip-g"></span><span class="dice-pip pip-i"></span>
+            </div>
+          </div>
+        </div>
+
+        <button class="dice-roll-btn" id="diceRollBtn" type="button">GIRAR</button>
+
+        <div class="dice-result" id="diceResult">
+          <p class="dice-result-lead">SUA PRENDA É:</p>
+          <div class="dice-result-card">
+            <div class="dice-result-value" id="diceResultValue"></div>
+          </div>
+          <button class="dice-again-btn" id="diceAgainBtn" type="button">GIRAR NOVAMENTE 🔄</button>
+        </div>
+      </div>
+
+      <button class="reveal-btn show" id="desafioContinueBtn" style="margin-top:30px;">voltar aos mini games ♥</button>
     </div>
   </section>
 
@@ -2039,6 +2164,126 @@
       });
       roletaObserver.observe(roletaScreenEl, { attributes:true, attributeFilter:['class'] });
       if(roletaScreenEl.classList.contains('active')) startHearts();
+    }
+  })();
+
+  /* -------- DESAFIO DO CASAL (DADO 3D) -------- */
+  (function(){
+    const cube = document.getElementById('diceCube');
+    const rollBtn = document.getElementById('diceRollBtn');
+    const againBtn = document.getElementById('diceAgainBtn');
+    const resultBox = document.getElementById('diceResult');
+    const resultValue = document.getElementById('diceResultValue');
+    const introEl = document.getElementById('desafioIntro');
+    const subIntroEl = document.getElementById('desafioSubintro');
+    const heartsLayer = document.getElementById('desafioHeartsBg');
+    const desafioScreenEl = document.querySelector('.screen[data-screen="desafio"]');
+    const continueBtn = document.getElementById('desafioContinueBtn');
+    if(!cube || !rollBtn) return;
+
+    const PRENDAS = [
+      'Imitar o outro por 30 segundos.',
+      'Falar com uma voz engraçada por 2 minutos.',
+      'Dançar uma música escolhida pelo outro.',
+      'Fazer uma pose ridícula para uma foto.',
+      'Cantar o refrão de uma música escolhida pelo outro.',
+      'Tentar fazer o outro rir sem encostar nele.',
+      'Fazer uma imitação de um personagem.',
+      'Falar apenas rimando durante 1 minuto.',
+      'Fazer uma passarela improvisada pela sala.',
+      'Deixar o outro escolher um apelido engraçado para você por 10 minutos.'
+    ];
+
+    let rotX = -24, rotY = 35, rotZ = 0;
+    let spinning = false;
+    let lastIndex = -1;
+    let heartInterval = null;
+    let heartsStarted = false;
+
+    function spawnHeart(){
+      if(!heartsLayer) return;
+      const h = document.createElement('div');
+      h.className = 'qh-heart';
+      h.textContent = '♥';
+      h.style.left = (Math.random()*100) + '%';
+      h.style.setProperty('--drift', (Math.random()*60-30) + 'px');
+      h.style.animationDuration = (5 + Math.random()*4) + 's';
+      h.style.fontSize = (12 + Math.random()*14) + 'px';
+      heartsLayer.appendChild(h);
+      setTimeout(()=> h.remove(), 9500);
+    }
+    function startHearts(){
+      if(heartsStarted) return;
+      heartsStarted = true;
+      heartInterval = setInterval(spawnHeart, 900);
+    }
+
+    function spawnDiceConfetti(){
+      const layer = document.createElement('div');
+      layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:500;overflow:hidden;';
+      document.body.appendChild(layer);
+      for(let i=0;i<26;i++){
+        const heart = document.createElement('div');
+        heart.textContent = '♥';
+        const size = 12 + Math.random()*18;
+        const color = Math.random() > 0.5 ? '#E8A798' : '#B4657A';
+        const dur = 3 + Math.random()*2.5;
+        const delay = Math.random()*0.6;
+        heart.style.cssText = `position:absolute; top:-40px; left:${Math.random()*100}%; font-size:${size}px; color:${color}; opacity:${0.5+Math.random()*0.5}; animation:confettiFall ${dur}s ease-in ${delay}s forwards;`;
+        layer.appendChild(heart);
+      }
+      setTimeout(()=> layer.remove(), 6200);
+    }
+
+    function pickPrenda(){
+      if(PRENDAS.length <= 1) return 0;
+      let idx;
+      do{ idx = Math.floor(Math.random()*PRENDAS.length); } while(idx === lastIndex);
+      lastIndex = idx;
+      return idx;
+    }
+
+    function rollDice(){
+      if(spinning) return;
+      spinning = true;
+      rollBtn.disabled = true;
+      resultBox.classList.remove('show');
+      if(subIntroEl) subIntroEl.textContent = 'girando...';
+
+      cube.classList.add('rolling');
+      // várias voltas completas em X e Y, mais uma leve inclinação em Z, sempre somando ao ângulo atual
+      rotX += 360*(2 + Math.floor(Math.random()*2)) + Math.floor(Math.random()*360);
+      rotY += 360*(2 + Math.floor(Math.random()*2)) + Math.floor(Math.random()*360);
+      rotZ += Math.floor(Math.random()*360) - 180;
+      cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg)`;
+
+      setTimeout(()=>{
+        spinning = false;
+        rollBtn.disabled = false;
+        cube.classList.remove('rolling');
+        if(subIntroEl) subIntroEl.textContent = 'Clique em GIRAR e descubra o seu desafio!';
+        const chosen = PRENDAS[pickPrenda()];
+        resultValue.textContent = chosen;
+        resultBox.classList.add('show');
+        spawnDiceConfetti();
+      }, 2600);
+    }
+
+    rollBtn.addEventListener('click', rollDice);
+    if(againBtn) againBtn.addEventListener('click', rollDice);
+    if(continueBtn){
+      continueBtn.addEventListener('click', ()=>{
+        if(window.miniGames) window.miniGames.closeSubScreen('desafio');
+      });
+    }
+
+    // corações flutuantes só começam quando o usuário entra nessa sub-tela
+    if(desafioScreenEl){
+      const desafioObserver = new MutationObserver(()=>{
+        if(desafioScreenEl.classList.contains('active')) startHearts();
+      });
+      desafioObserver.observe(desafioScreenEl, { attributes:true, attributeFilter:['class'] });
+      if(desafioScreenEl.classList.contains('active')) startHearts();
     }
   })();
 
