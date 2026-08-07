@@ -593,6 +593,145 @@
   }
   #prevScreenBtn.hidden{ display:none; }
 
+  /* ---------- QUIZ "QUANTO VOCÊ ME CONHECE" (tela do carrossel) ---------- */
+  .quiz-wrap{ width:100%; max-width:480px; margin:0 auto; position:relative; }
+  .quiz-hearts-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .qh-heart{
+    position:absolute; bottom:-10%; color:var(--pink); opacity:.55; font-size:16px;
+    animation:qhFloat linear forwards; filter:drop-shadow(0 0 6px rgba(232,167,152,.5));
+  }
+  @keyframes qhFloat{
+    0%{ transform:translateY(0) translateX(0) scale(.8); opacity:0; }
+    10%{ opacity:.6; }
+    100%{ transform:translateY(-110vh) translateX(var(--drift,20px)) scale(1.1); opacity:0; }
+  }
+
+  .quiz-box{
+    position:relative; z-index:1; width:100%;
+    background:rgba(255,255,255,0.04); border:1px solid var(--card-border); border-radius:20px;
+    padding:30px 26px 26px; backdrop-filter:blur(6px);
+  }
+
+  .quiz-progress-track{
+    width:100%; height:8px; border-radius:10px; background:rgba(255,255,255,0.08); overflow:hidden;
+  }
+  .quiz-progress-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--purple),var(--pink));
+    transition:width .4s ease;
+  }
+  .quiz-progress-label{ text-align:center; font-size:11.5px; color:var(--text-dim); margin-top:8px; letter-spacing:.5px; }
+
+  .quiz-modal-body{ margin-top:22px; }
+  .quiz-q-card{ animation:quizFadeIn .4s ease; }
+  @keyframes quizFadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+  .quiz-q-emoji{ font-size:30px; text-align:center; display:block; margin-bottom:8px; }
+  .quiz-q-text{ font-family:'Fraunces',serif; font-size:19px; font-style:italic; text-align:center; margin-bottom:22px; }
+
+  .quiz-opt-list{ display:flex; flex-direction:column; gap:11px; }
+  .quiz-opt{
+    background:rgba(255,255,255,0.04); border:1px solid var(--card-border); color:var(--text);
+    border-radius:14px; padding:13px 16px; font-family:'Work Sans',sans-serif; font-size:14.5px;
+    cursor:pointer; text-align:left; transition:background .2s, border-color .2s, transform .15s;
+  }
+  .quiz-opt:hover{ border-color:var(--pink); transform:translateX(2px); }
+  .quiz-opt.correct{ background:rgba(120,200,140,0.18); border-color:#8fd39a; }
+  .quiz-opt.wrong{ background:rgba(200,90,90,0.18); border-color:#d98080; animation:gateShake .4s ease; }
+  .quiz-opt.disabled{ pointer-events:none; opacity:.6; }
+
+  .quiz-text-input{
+    width:100%; background:var(--card); border:1px solid var(--card-border); color:var(--text);
+    border-radius:14px; padding:13px 16px; font-family:'Work Sans',sans-serif; font-size:14.5px;
+    outline:none; resize:none; min-height:70px;
+  }
+  .quiz-text-input:focus{ border-color:var(--pink); }
+  .quiz-confirm-btn{
+    margin-top:14px; width:100%; background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border:none;
+    border-radius:30px; padding:12px; font-size:13.5px; letter-spacing:.3px; font-family:'Work Sans',sans-serif;
+    font-weight:500; cursor:pointer;
+  }
+  .quiz-confirm-btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .quiz-result{ text-align:center; animation:quizFadeIn .5s ease; }
+  .quiz-result-score{ font-family:'Fraunces',serif; font-size:48px; color:var(--pink); font-style:italic; margin-bottom:6px; }
+  .quiz-result-sub{ font-size:12px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-bottom:18px; }
+  .quiz-result-msg{ font-size:16px; line-height:1.6; margin-bottom:26px; font-style:italic; font-family:'Fraunces',serif; }
+  .quiz-redo-btn{
+    background:transparent; border:1px dashed var(--card-border); color:var(--text-dim);
+    padding:10px 22px; border-radius:30px; cursor:pointer; font-size:13px; font-family:'Work Sans',sans-serif;
+  }
+  .quiz-redo-btn:hover{ border-color:var(--pink); color:var(--pink); }
+
+  /* ---------- MINI GAMES (HUB TIPO TELA DE APPS) ---------- */
+  .minigames-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+    gap:22px 16px; width:100%; max-width:640px; margin:0 auto;
+  }
+  .game-card{
+    position:relative; display:flex; flex-direction:column; align-items:center; gap:10px;
+    background:rgba(255,255,255,0.045); border:1px solid var(--card-border); border-radius:22px;
+    padding:20px 10px 16px; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    cursor:pointer; font-family:'Work Sans',sans-serif; color:var(--text);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .game-card:hover{
+    transform:translateY(-4px) scale(1.05);
+    border-color:var(--pink);
+    background:rgba(255,255,255,0.075);
+    box-shadow:0 16px 34px rgba(232,167,152,0.28);
+  }
+  .game-card:active{ transform:translateY(-1px) scale(1.01); }
+  .game-icon{
+    width:60px; height:60px; border-radius:20px; display:flex; align-items:center; justify-content:center;
+    font-size:28px; box-shadow:0 10px 22px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.08);
+    transition:box-shadow .25s ease, transform .25s ease;
+  }
+  .game-card:hover .game-icon{ box-shadow:0 14px 30px rgba(232,167,152,0.4), inset 0 0 0 1px rgba(255,255,255,0.15); transform:scale(1.06); }
+  .game-label{ font-size:12.5px; letter-spacing:.3px; text-align:center; line-height:1.3; }
+
+  .game-card.locked{ cursor:pointer; }
+  .game-card.locked .game-icon{ filter:grayscale(.55) brightness(.65); }
+  .game-card.locked .game-label{ color:var(--text-dim); }
+  .game-card.locked:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 10px 22px rgba(0,0,0,0.3); border-color:var(--card-border); }
+  .lock-badge{
+    position:absolute; top:8px; right:14px; font-size:12px; opacity:.75;
+  }
+  .soon-tag{
+    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--pink); opacity:.85;
+    background:rgba(232,167,152,0.12); border:1px solid rgba(232,167,152,0.3); border-radius:20px;
+    padding:2px 9px; margin-top:2px;
+  }
+
+  #miniGameToast{
+    position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(20px);
+    background:rgba(20,12,10,0.92); border:1px solid var(--card-border); color:var(--text);
+    padding:12px 22px; border-radius:30px; font-size:13px; letter-spacing:.3px; z-index:500;
+    opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease;
+    box-shadow:0 14px 30px rgba(0,0,0,0.4);
+  }
+  #miniGameToast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .completed-badge{
+    position:absolute; top:8px; right:14px; font-size:13px; color:#8fd39a;
+    filter:drop-shadow(0 0 4px rgba(143,211,154,0.6));
+  }
+
+  .minigames-continue-btn{
+    margin-top:34px; background:rgba(255,255,255,0.08); color:var(--text-dim); border:1px solid var(--card-border);
+    border-radius:30px; padding:14px 34px; font-size:14px; font-weight:600; letter-spacing:.5px;
+    font-family:'Work Sans',sans-serif; cursor:not-allowed; box-shadow:none;
+    transition:opacity .4s ease, transform .3s ease, box-shadow .4s ease, background .4s ease, color .4s ease;
+    opacity:.7;
+  }
+  .minigames-continue-btn:not(:disabled):hover{ transform:translateY(-2px); }
+  .minigames-continue-btn.unlocked{
+    background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border-color:transparent;
+    cursor:pointer; opacity:1; animation:continueGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes continueGlow{
+    0%,100%{ box-shadow:0 0 14px rgba(232,167,152,0.45), 0 10px 26px rgba(107,42,58,0.4); }
+    50%{ box-shadow:0 0 28px rgba(232,167,152,0.85), 0 10px 30px rgba(107,42,58,0.5); }
+  }
+
   @media(max-width:640px){
     .screen{ padding:64px 16px 40px; }
     .cbox{ padding:16px 18px; min-width:78px; }
@@ -850,8 +989,76 @@
     </div>
   </section>
 
-  <!-- TELA QUEBRA-CABEÇA -->
-  <section class="screen" data-screen="puzzle">
+  <!-- TELA MINI GAMES (HUB) -->
+  <section class="screen" data-screen="minigames">
+    <div class="screen-inner">
+      <h2 class="section-title">Mini Games</h2>
+      <p class="section-sub">escolha um joguinho pra gente jogar ♥</p>
+
+      <div class="minigames-grid">
+        <button class="game-card" data-jump="puzzle" type="button">
+          <span class="game-icon" style="background:linear-gradient(160deg,#7B3F61,#B4657A);">🧩</span>
+          <span class="game-label">Quebra-Cabeça</span>
+        </button>
+
+        <button class="game-card" data-jump="quiz" type="button" id="quizGameCard">
+          <span class="completed-badge" id="quizCompletedBadge" style="display:none;">✅</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#590503,#B4657A);">🧠</span>
+          <span class="game-label">Quiz</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#3A1F4D,#7A4FA0);">🎵</span>
+          <span class="game-label">Adivinhe a Música</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#1F4D3A,#4FA07A);">🃏</span>
+          <span class="game-label">Memória</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#7A2E3E,#E8A798);">❤️</span>
+          <span class="game-label">Memória com Fotos</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#333,#666);">💣</span>
+          <span class="game-label">Minas</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#4D3A1F,#A0754F);">🎲</span>
+          <span class="game-label">Desafio do Casal</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+
+        <button class="game-card locked" data-soon type="button">
+          <span class="lock-badge">🔒</span>
+          <span class="game-icon" style="background:linear-gradient(160deg,#590503,#E8A798);">🎁</span>
+          <span class="game-label">Roleta do que Fazer</span>
+          <span class="soon-tag">Em breve</span>
+        </button>
+      </div>
+
+      <p class="hint-text" id="minigamesHint">jogue o quiz pra desbloquear o botão de continuar ♥</p>
+      <button class="minigames-continue-btn" id="minigamesContinueBtn" type="button" disabled>➡️ Continuar</button>
+    </div>
+  </section>
+
+  <div id="miniGameToast"></div>
+
+  <!-- TELA QUEBRA-CABEÇA (sub-tela do Mini Games, fora do fluxo principal) -->
+  <section class="screen" data-screen="puzzle" data-sub="true">
     <div class="screen-inner">
       <h2 class="section-title">Nosso Quebra-cabeça</h2>
       <p class="section-sub">toque em duas peças pra trocar elas de lugar</p>
@@ -862,7 +1069,7 @@
         </div>
         <p class="hint-text puzzle-progress" id="puzzleHint">troque as duas peças fora do lugar</p>
         <button class="puzzle-shuffle-btn" id="puzzleShuffleBtn">embaralhar de novo</button>
-        <button class="reveal-btn" id="puzzleContinueBtn">continuar ♥</button>
+        <button class="reveal-btn" id="puzzleContinueBtn">voltar aos mini games ♥</button>
       </div>
     </div>
   </section>
@@ -948,6 +1155,25 @@
       </div>
       <button class="add-event" id="addEvent">+ adicionar outro momento</button>
       <button class="reveal-btn" id="timelineContinueBtn">continuar ♥</button>
+    </div>
+  </section>
+
+  <!-- TELA QUIZ: QUANTO VOCÊ ME CONHECE -->
+  <section class="screen" data-screen="quiz" data-sub="true">
+    <div class="screen-inner">
+      <h2 class="section-title">Quanto você me conhece? ❤️</h2>
+      <p class="section-sub">responda com o coração</p>
+
+      <div class="quiz-wrap">
+        <div class="quiz-hearts-bg" id="quizHeartsBg"></div>
+        <div class="quiz-box">
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+          <div class="quiz-progress-label" id="quizProgressLabel">Pergunta 1 de 20</div>
+          <div class="quiz-modal-body" id="quizModalBody">
+            <!-- perguntas e resultado são injetados aqui via JS -->
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1178,7 +1404,7 @@
   });
 
   /* -------- SCREEN NAVIGATION CORE -------- */
-  const screens = Array.from(document.querySelectorAll('.screen'));
+  const screens = Array.from(document.querySelectorAll('.screen:not([data-sub])'));
   const total = screens.length;
   let screenIndex = 0;
   let unlockedUpTo = 0;
@@ -1222,6 +1448,76 @@
   });
 
   goToScreen(0);
+
+  /* -------- MINI GAMES: hub, sub-telas (Quiz / Quebra-Cabeça) e progressão -------- */
+  (function(){
+    const MINIGAMES_QUIZ_KEY = 'miniGamesQuizCompleted';
+    const minigamesScreenEl = document.querySelector('.screen[data-screen="minigames"]');
+    const continueBtn = document.getElementById('minigamesContinueBtn');
+    const quizBadge = document.getElementById('quizCompletedBadge');
+    const toastEl = document.getElementById('miniGameToast');
+    let toastTimer = null;
+
+    function showToast(msg){
+      if(!toastEl) return;
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toastEl.classList.remove('show'), 2600);
+    }
+
+    function openSubScreen(name){
+      const target = document.querySelector('.screen[data-sub][data-screen="'+name+'"]');
+      if(!target || !minigamesScreenEl) return;
+      minigamesScreenEl.classList.remove('active');
+      target.classList.add('active');
+      target.scrollTop = 0;
+    }
+
+    function closeSubScreen(name){
+      const target = document.querySelector('.screen[data-sub][data-screen="'+name+'"]');
+      if(target) target.classList.remove('active');
+      if(minigamesScreenEl){ minigamesScreenEl.classList.add('active'); minigamesScreenEl.scrollTop = 0; }
+    }
+
+    function unlockContinue(){
+      if(!continueBtn) return;
+      continueBtn.disabled = false;
+      continueBtn.classList.add('unlocked');
+      if(quizBadge) quizBadge.style.display = '';
+    }
+
+    function markQuizCompleted(){
+      try{ localStorage.setItem(MINIGAMES_QUIZ_KEY, 'true'); }catch(e){}
+      unlockContinue();
+    }
+
+    // restaura o progresso salvo (persistência via localStorage)
+    try{
+      if(localStorage.getItem(MINIGAMES_QUIZ_KEY) === 'true') unlockContinue();
+    }catch(e){}
+
+    document.querySelectorAll('.game-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        if(card.hasAttribute('data-soon')){
+          showToast('🚧 Em breve este jogo estará disponível!');
+          return;
+        }
+        const target = card.dataset.jump;
+        if(target) openSubScreen(target);
+      });
+    });
+
+    if(continueBtn){
+      continueBtn.addEventListener('click', ()=>{
+        if(continueBtn.disabled) return;
+        advance(150);
+      });
+    }
+
+    // expõe funções para as sub-telas (quiz/quebra-cabeça) usarem
+    window.miniGames = { openSubScreen, closeSubScreen, markQuizCompleted };
+  })();
 
   /* -------- TELA 0: bater 3x no coração -------- */
   const beatHeart = document.getElementById('beatHeart');
@@ -1531,7 +1827,9 @@
     buildTiles();
     shuffle();
     shuffleBtn.addEventListener('click', shuffle);
-    continueBtn.addEventListener('click', ()=> advance(150));
+    continueBtn.addEventListener('click', ()=>{
+      setTimeout(()=>{ if(window.miniGames) window.miniGames.closeSubScreen('puzzle'); }, 150);
+    });
   })();
 
   /* -------- TELA ENVELOPE: arrastar pra cima pra abrir -------- */
@@ -1700,6 +1998,215 @@
     confettiFired = false;
     goToScreen(0);
   }
+
+  /* ================= QUIZ "QUANTO VOCÊ ME CONHECE" ================= */
+  (function(){
+
+    // ===================================================================
+    // EDITE AQUI: cada pergunta tem "type": "choice" (múltipla escolha)
+    // ou "type": "text" (pergunta aberta, sempre conta como acerto).
+    // Para as de múltipla escolha, "correctIndex" é a posição (0 a 3)
+    // da resposta certa dentro de "options" — troque o número à vontade.
+    // ===================================================================
+    const QUIZ_QUESTIONS = [
+      { emoji:'🍕', q:'Qual é minha comida favorita?', type:'choice',
+        options:['Feijoada','Macarrão com salsicha','Pizza de calabresa','Lasanha'], correctIndex:1 },
+      { emoji:'🎨', q:'Qual é minha cor favorita?', type:'choice',
+        options:['Azul','Verde','Roxo','Preto'], correctIndex:2 },
+      { emoji:'🎵', q:'Qual é minha música favorita?', type:'choice',
+        options:['Evidências','Doutora','Ai Se Eu Te Pego','Tudo Tudo'], correctIndex:1 },
+      { emoji:'🎮', q:'Qual é meu jogo favorito?', type:'choice',
+        options:['Free Fire','FIFA','GTA 5','Minecraft'], correctIndex:2 },
+      { emoji:'🎬', q:'Qual é meu filme favorito?', type:'choice',
+        options:['Vingadores: Ultimato','A Namorada Perfeita','Titanic','De Volta Para o Futuro'], correctIndex:1 },
+      { emoji:'📺', q:'Qual é minha série favorita?', type:'choice',
+        options:['Round 6','La Casa de Papel','Stranger Things','Breaking Bad'], correctIndex:2 },
+      { emoji:'⭐', q:'Qual é meu personagem favorito?', type:'choice',
+        options:['Steve Harrington','Eddie Munson','Mike Wheeler','Dustin Henderson'], correctIndex:1 },
+      { emoji:'▶️', q:'Qual é meu youtuber favorito?', type:'choice',
+        options:['Cellbit','Felps','AuthenticGames','Nobru'], correctIndex:2 },
+      { emoji:'🎤', q:'Qual é meu cantor favorito?', type:'choice',
+        options:['MC Ryan SP','MC Kevin','Ludmilla','Wesley Safadão'], correctIndex:1 },
+      { emoji:'🐶', q:'Qual é meu animal favorito?', type:'choice',
+        options:['Cachorro','Gato','Coruja','Leão'], correctIndex:2 },
+      { emoji:'🍫', q:'Qual é meu doce favorito?', type:'choice',
+        options:['Brigadeiro','Pavê','Pudim','Bolo de chocolate'], correctIndex:1 },
+      { emoji:'🥤', q:'Qual é minha bebida favorita?', type:'choice',
+        options:['Coca-Cola','Suco de abacaxi','Suco de laranja','Água de coco'], correctIndex:1 },
+      { emoji:'🌍', q:'Qual é o lugar que mais quero conhecer?', type:'choice',
+        options:['Paris','Ilhabela','Fernando de Noronha','Nova York'], correctIndex:1 },
+      { emoji:'🎯', q:'O que eu mais gosto de fazer?', type:'choice',
+        options:['Assistir séries','Jogar','Malhar','Cozinhar'], correctIndex:1 },
+      { emoji:'😴', q:'Qual é meu maior defeito?', type:'text', placeholder:'escreva sua resposta...' },
+      { emoji:'💖', q:'Qual é a coisa que mais amo em você?', type:'choice',
+        options:['Sorriso','Olhos','Cabelo','Abraço'], correctIndex:1 },
+      { emoji:'📅', q:'Qual foi a data do nosso primeiro beijo?', type:'choice',
+        options:['21 de agosto','14 de março','31 de agosto','1 de setembro'], correctIndex:2 },
+      { emoji:'📸', q:'Onde foi nosso primeiro passeio juntos?', type:'choice',
+        options:['Praia','Shopping','Cinema','Parque'], correctIndex:1 },
+      { emoji:'❤️', q:'O que mais me faz feliz?', type:'text', placeholder:'escreva sua resposta...' },
+      { emoji:'💍', q:'Qual é meu maior sonho para o nosso futuro?', type:'text', placeholder:'escreva sua resposta...' }
+    ];
+
+    const bodyEl = document.getElementById('quizModalBody');
+    const fillEl = document.getElementById('quizProgressFill');
+    const labelEl = document.getElementById('quizProgressLabel');
+    const heartsLayer = document.getElementById('quizHeartsBg');
+    const quizScreenEl = document.querySelector('.screen[data-screen="quiz"]');
+
+    let qIndex = 0;
+    let score = 0;
+    let heartInterval = null;
+    let quizStarted = false;
+
+    function updateProgress(){
+      const pct = (qIndex / QUIZ_QUESTIONS.length) * 100;
+      fillEl.style.width = pct + '%';
+      labelEl.textContent = `Pergunta ${Math.min(qIndex+1, QUIZ_QUESTIONS.length)} de ${QUIZ_QUESTIONS.length}`;
+    }
+
+    function renderQuestion(){
+      updateProgress();
+      const item = QUIZ_QUESTIONS[qIndex];
+
+      if(item.type === 'choice'){
+        const optsHtml = item.options.map((opt,i)=>
+          `<button class="quiz-opt" data-i="${i}">${opt}</button>`
+        ).join('');
+        bodyEl.innerHTML = `
+          <div class="quiz-q-card">
+            <span class="quiz-q-emoji">${item.emoji}</span>
+            <div class="quiz-q-text">${item.q}</div>
+            <div class="quiz-opt-list">${optsHtml}</div>
+          </div>`;
+        Array.from(bodyEl.querySelectorAll('.quiz-opt')).forEach(btn=>{
+          btn.addEventListener('click', ()=> onChoiceAnswer(parseInt(btn.dataset.i,10), btn));
+        });
+      } else {
+        bodyEl.innerHTML = `
+          <div class="quiz-q-card">
+            <span class="quiz-q-emoji">${item.emoji}</span>
+            <div class="quiz-q-text">${item.q}</div>
+            <textarea class="quiz-text-input" id="quizTextInput" placeholder="${item.placeholder||''}"></textarea>
+            <button class="quiz-confirm-btn" id="quizTextConfirm" disabled>confirmar ♥</button>
+          </div>`;
+        const input = document.getElementById('quizTextInput');
+        const confirmBtn = document.getElementById('quizTextConfirm');
+        input.addEventListener('input', ()=>{ confirmBtn.disabled = input.value.trim().length === 0; });
+        confirmBtn.addEventListener('click', ()=> onTextAnswer());
+      }
+    }
+
+    function onChoiceAnswer(i, btn){
+      const item = QUIZ_QUESTIONS[qIndex];
+      const allBtns = Array.from(bodyEl.querySelectorAll('.quiz-opt'));
+      allBtns.forEach(b=> b.classList.add('disabled'));
+
+      if(i === item.correctIndex){
+        btn.classList.add('correct');
+        score++;
+      } else {
+        btn.classList.add('wrong');
+        allBtns[item.correctIndex].classList.add('correct');
+      }
+      setTimeout(goNext, 850);
+    }
+
+    function onTextAnswer(){
+      // Pergunta aberta: qualquer resposta escrita conta como acerto
+      score++;
+      goNext();
+    }
+
+    function goNext(){
+      qIndex++;
+      if(qIndex < QUIZ_QUESTIONS.length){
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function getResultMessage(s){
+      if(s === 20) return 'Você me conhece melhor do que ninguém! Eu te amo!';
+      if(s >= 16) return 'Quase perfeito! Você realmente presta atenção em mim.';
+      if(s >= 11) return 'Muito bem! Você me conhece bastante.';
+      if(s >= 6)  return 'Ainda temos muitas histórias para viver juntos.';
+      return 'Acho que precisamos sair mais vezes!';
+    }
+
+    function showResult(){
+      fillEl.style.width = '100%';
+      labelEl.textContent = 'Quiz completo ♥';
+      bodyEl.innerHTML = `
+        <div class="quiz-result">
+          <div class="quiz-result-score">${score}/${QUIZ_QUESTIONS.length}</div>
+          <div class="quiz-result-sub">acertos</div>
+          <div class="quiz-result-msg">${getResultMessage(score)}</div>
+          <button class="quiz-redo-btn" id="quizRedoBtn">refazer quiz</button>
+          <button class="reveal-btn show" id="quizContinueBtn" style="margin-top:14px;">voltar aos mini games ♥</button>
+        </div>`;
+      document.getElementById('quizRedoBtn').addEventListener('click', resetQuiz);
+      document.getElementById('quizContinueBtn').addEventListener('click', ()=>{
+        if(window.miniGames) window.miniGames.closeSubScreen('quiz');
+      });
+      if(window.miniGames) window.miniGames.markQuizCompleted();
+      if(score === QUIZ_QUESTIONS.length) spawnQuizConfetti();
+    }
+
+    function resetQuiz(){
+      qIndex = 0;
+      score = 0;
+      renderQuestion();
+    }
+
+    function spawnQuizHeart(){
+      const h = document.createElement('div');
+      h.className = 'qh-heart';
+      h.textContent = '♥';
+      h.style.left = (Math.random()*100) + '%';
+      h.style.setProperty('--drift', (Math.random()*60-30) + 'px');
+      h.style.animationDuration = (5 + Math.random()*4) + 's';
+      h.style.fontSize = (12 + Math.random()*14) + 'px';
+      heartsLayer.appendChild(h);
+      setTimeout(()=> h.remove(), 9500);
+    }
+
+    function spawnQuizConfetti(){
+      const layer = document.createElement('div');
+      layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:500;overflow:hidden;';
+      document.body.appendChild(layer);
+      for(let i=0;i<26;i++){
+        const heart = document.createElement('div');
+        heart.textContent = '♥';
+        const size = 12 + Math.random()*18;
+        const color = Math.random() > 0.5 ? '#E8A798' : '#B4657A';
+        const dur = 3 + Math.random()*2.5;
+        const delay = Math.random()*0.6;
+        heart.style.cssText = `position:absolute; top:-40px; left:${Math.random()*100}%; font-size:${size}px; color:${color}; opacity:${0.5+Math.random()*0.5}; animation:confettiFall ${dur}s ease-in ${delay}s forwards;`;
+        layer.appendChild(heart);
+      }
+      setTimeout(()=> layer.remove(), 6200);
+    }
+
+    function startQuiz(){
+      if(quizStarted) return;
+      quizStarted = true;
+      resetQuiz();
+      heartInterval = setInterval(spawnQuizHeart, 700);
+    }
+
+    // A tela do quiz começa junto com as outras (renderiza a primeira pergunta de imediato)
+    renderQuestion();
+    // Ativa os corações flutuantes só quando o usuário chega nessa tela do carrossel
+    if(quizScreenEl){
+      const quizObserver = new MutationObserver(()=>{
+        if(quizScreenEl.classList.contains('active')) startQuiz();
+      });
+      quizObserver.observe(quizScreenEl, { attributes:true, attributeFilter:['class'] });
+      if(quizScreenEl.classList.contains('active')) startQuiz();
+    }
+  })();
 </script>
 
 </body>
