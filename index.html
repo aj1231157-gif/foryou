@@ -1323,6 +1323,132 @@
     .senha-key{ padding:18px 0; font-size:19px; }
     .senha-timer{ font-size:20px; padding:8px 18px; }
   }
+  /* ---------- MINIGAME: PALAVRAS RÁPIDAS ---------- */
+  .pr-wrap{ width:100%; max-width:560px; margin:0 auto; position:relative; }
+  .pr-scoreboard{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+    padding:12px 18px; margin-bottom:22px; font-family:'Fraunces',serif; font-size:15px;
+  }
+  .pr-score-side{ display:flex; align-items:center; gap:6px; }
+  .pr-score-num{ color:var(--pink); font-style:italic; font-size:20px; font-weight:700; transition:transform .25s ease; }
+  .pr-score-num.bump{ transform:scale(1.4); }
+  .pr-score-name{ color:var(--text-dim); font-size:12px; letter-spacing:.5px; text-transform:uppercase; font-family:'Work Sans',sans-serif; }
+  .pr-vs{ color:var(--purple-light); font-size:12px; opacity:.7; }
+
+  .pr-pause-btn{
+    position:absolute; top:-6px; right:0; width:34px; height:34px; border-radius:50%;
+    background:var(--card); border:1px solid var(--card-border); color:var(--pink);
+    font-size:14px; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:transform .2s ease, background .2s ease; z-index:5;
+  }
+  .pr-pause-btn:hover{ transform:scale(1.08); background:rgba(232,167,152,0.15); }
+
+  .pr-stage{ position:relative; min-height:340px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }
+
+  .pr-picker{ animation:prFadeIn .45s ease; width:100%; }
+  .pr-picker-title{ font-family:'Fraunces',serif; font-style:italic; font-size:22px; color:var(--pink); margin-bottom:22px; }
+  .pr-players-row{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+  .pr-player-box{
+    background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+    padding:16px 18px; width:160px; text-align:center;
+  }
+  .pr-player-box p{ margin:0 0 10px; font-size:12px; letter-spacing:.5px; text-transform:uppercase; color:var(--text-dim); }
+  .pr-num-input{
+    width:100%; text-align:center; font-family:'Fraunces',serif; font-size:26px; color:var(--text);
+    background:rgba(255,255,255,0.06); border:1px solid var(--card-border); border-radius:10px;
+    padding:8px 0; outline:none;
+  }
+  .pr-num-input:focus{ border-color:var(--pink); }
+  .pr-calc-row{ margin-top:18px; font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--text-dim); min-height:22px; }
+  .pr-confirm-btn{
+    margin-top:18px; background:linear-gradient(135deg,var(--purple),var(--purple-light));
+    color:var(--paper); border:none; border-radius:30px; padding:12px 30px;
+    font-family:'Work Sans',sans-serif; font-weight:600; letter-spacing:.5px; cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .pr-confirm-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(232,167,152,0.35); }
+  .pr-confirm-btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  .pr-round{ animation:prFadeIn .45s ease; width:100%; display:flex; flex-direction:column; align-items:center; }
+  .pr-letter-wrap{ position:relative; margin-bottom:14px; }
+  .pr-letter{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:clamp(70px,18vw,120px);
+    color:var(--pink); text-shadow:0 0 30px rgba(232,167,152,0.55); line-height:1;
+    animation:prLetterPop .5s ease;
+  }
+  @keyframes prLetterPop{ 0%{ transform:scale(.4) rotate(-8deg); opacity:0; } 60%{ transform:scale(1.15) rotate(3deg); opacity:1; } 100%{ transform:scale(1) rotate(0); } }
+
+  .pr-timer-wrap{ display:flex; flex-direction:column; align-items:center; margin-bottom:18px; }
+  .pr-timer-ring{ position:relative; width:76px; height:76px; }
+  .pr-timer-ring svg{ transform:rotate(-90deg); width:100%; height:100%; }
+  .pr-timer-ring circle{ fill:none; stroke-width:6; }
+  .pr-timer-ring .pr-ring-bg{ stroke:rgba(255,255,255,0.1); }
+  .pr-timer-ring .pr-ring-fg{ stroke:var(--pink); stroke-linecap:round; transition:stroke-dashoffset 1s linear, stroke .3s ease; }
+  .pr-timer-num{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:700; font-size:22px; color:var(--text);
+  }
+  .pr-timer-wrap.urgent .pr-ring-fg{ stroke:#d97a6f; }
+  .pr-timer-wrap.urgent .pr-timer-num{ color:#d97a6f; animation:prUrgentPulse .6s ease infinite; }
+  @keyframes prUrgentPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.15); } }
+
+  .pr-word-prompt{ font-size:13px; letter-spacing:.5px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+  .pr-word-input{
+    width:min(320px,80%); text-align:center; font-family:'Fraunces',serif; font-size:24px; color:var(--text);
+    background:rgba(255,255,255,0.06); border:2px solid var(--card-border); border-radius:14px;
+    padding:12px 16px; outline:none; transition:border-color .2s ease;
+  }
+  .pr-word-input:focus{ border-color:var(--pink); }
+  .pr-word-input.valid{ border-color:#8fd39a; }
+  .pr-word-input.invalid{ border-color:#d98080; animation:prShake .35s ease; }
+  @keyframes prShake{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-6px); } 75%{ transform:translateX(6px); } }
+
+  .pr-feedback{ min-height:26px; margin-top:12px; font-family:'Fraunces',serif; font-style:italic; font-size:15px; }
+  .pr-feedback.ok{ color:#8fd39a; }
+  .pr-feedback.bad{ color:#d98080; }
+
+  .pr-submit-btn{
+    margin-top:14px; background:transparent; color:var(--pink); border:1px solid var(--card-border);
+    border-radius:30px; padding:9px 24px; font-family:'Work Sans',sans-serif; font-weight:600;
+    cursor:pointer; transition:all .2s ease;
+  }
+  .pr-submit-btn:hover{ background:rgba(232,167,152,0.12); border-color:var(--pink); }
+
+  .pr-overlay{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background:rgba(21,16,13,0.88); border-radius:20px; z-index:10; opacity:0; pointer-events:none;
+    transition:opacity .3s ease; gap:16px; text-align:center; padding:20px;
+  }
+  .pr-overlay.show{ opacity:1; pointer-events:all; }
+  .pr-overlay-title{ font-family:'Fraunces',serif; font-style:italic; font-size:24px; color:var(--pink); }
+  .pr-overlay-sub{ font-size:13px; color:var(--text-dim); max-width:280px; }
+  .pr-play-btn{
+    width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--purple-light));
+    color:var(--paper); border:none; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease;
+  }
+  .pr-play-btn:hover{ transform:scale(1.08); }
+
+  .pr-win-name{ font-family:'Fraunces',serif; font-style:italic; font-size:30px; color:var(--pink); margin:6px 0; }
+  .pr-win-trophy{ font-size:44px; animation:prBounce 1s ease infinite; }
+  @keyframes prBounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+  .pr-final-score{ font-family:'Fraunces',serif; font-size:14px; color:var(--text-dim); margin-top:4px; }
+  .pr-overlay-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+  .pr-heart-confetti{ position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:20px; }
+  .pr-heart-confetti span{
+    position:absolute; top:-10%; font-size:18px; color:var(--pink); opacity:.9;
+    animation:prConfettiFall linear forwards;
+  }
+  @keyframes prConfettiFall{ to{ transform:translateY(420px) rotate(360deg); opacity:0; } }
+
+  @keyframes prFadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+  @media(max-width:520px){
+    .pr-letter{ font-size:80px; }
+    .pr-scoreboard{ font-size:13px; padding:10px 14px; }
+    .pr-player-box{ width:130px; }
+  }
 </style>
 </head>
 <body>
@@ -1588,11 +1714,9 @@
           <span class="game-label">Quiz</span>
         </button>
 
-        <button class="game-card locked" data-soon type="button">
-          <span class="lock-badge">🔒</span>
-          <span class="game-icon" style="background:linear-gradient(160deg,#3A1F4D,#7A4FA0);">🎵</span>
-          <span class="game-label">Adivinhe a Música</span>
-          <span class="soon-tag">Em breve</span>
+        <button class="game-card" data-jump="palavras" type="button">
+          <span class="game-icon" style="background:linear-gradient(160deg,#3A1F4D,#7A4FA0);">⚡</span>
+          <span class="game-label">Palavras Rápidas</span>
         </button>
 
         <button class="game-card" data-jump="memoria" type="button">
@@ -1810,6 +1934,101 @@
         </div>
 
         <button class="reveal-btn show" id="senhaBackBtn" type="button" style="margin-top:26px;">voltar aos mini games ♥</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA PALAVRAS RÁPIDAS -->
+  <section class="screen" data-screen="palavras" data-sub="true">
+    <div class="screen-inner">
+      <h2 class="section-title">Palavras Rápidas ⚡</h2>
+      <p class="section-sub">escolham seus números, receba a letra e escreva rápido antes que o tempo acabe!</p>
+
+      <div class="pr-wrap">
+        <button class="pr-pause-btn" id="prPauseBtn" type="button" title="pausar" style="display:none;">⏸️</button>
+
+        <div class="pr-scoreboard" id="prScoreboard" style="display:none;">
+          <div class="pr-score-side">
+            <span class="pr-score-name">Jogador 1</span>
+            <span class="pr-score-num" id="prScoreP1">0</span>
+            <span>❤️</span>
+          </div>
+          <span class="pr-vs">vs</span>
+          <div class="pr-score-side">
+            <span>❤️</span>
+            <span class="pr-score-num" id="prScoreP2">0</span>
+            <span class="pr-score-name">Jogador 2</span>
+          </div>
+        </div>
+
+        <div class="pr-stage" id="prStage">
+
+          <!-- ESCOLHA DOS NÚMEROS -->
+          <div class="pr-picker" id="prPicker">
+            <p class="pr-picker-title">Escolham seus números!</p>
+            <div class="pr-players-row">
+              <div class="pr-player-box">
+                <p>Jogador 1 — escolha seu número</p>
+                <input type="number" class="pr-num-input" id="prNum1" min="1" max="26" placeholder="?">
+              </div>
+              <div class="pr-player-box">
+                <p>Jogador 2 — escolha seu número</p>
+                <input type="number" class="pr-num-input" id="prNum2" min="1" max="26" placeholder="?">
+              </div>
+            </div>
+            <div class="pr-calc-row" id="prCalcRow">&nbsp;</div>
+            <button class="pr-confirm-btn" id="prConfirmBtn" type="button" disabled>Revelar a letra ♥</button>
+          </div>
+
+          <!-- RODADA -->
+          <div class="pr-round" id="prRound" style="display:none;">
+            <div class="pr-letter-wrap">
+              <div class="pr-letter" id="prLetter">A</div>
+            </div>
+            <div class="pr-timer-wrap" id="prTimerWrap">
+              <div class="pr-timer-ring">
+                <svg viewBox="0 0 80 80">
+                  <circle class="pr-ring-bg" cx="40" cy="40" r="34"></circle>
+                  <circle class="pr-ring-fg" id="prRingFg" cx="40" cy="40" r="34"></circle>
+                </svg>
+                <div class="pr-timer-num" id="prTimerNum">20</div>
+              </div>
+            </div>
+            <p class="pr-word-prompt" id="prWordPrompt">Digite uma palavra que comece com A!</p>
+            <input type="text" class="pr-word-input" id="prWordInput" autocomplete="off" placeholder="sua palavra...">
+            <button class="pr-submit-btn" id="prSubmitBtn" type="button">confirmar ♥</button>
+            <p class="pr-feedback" id="prFeedback">&nbsp;</p>
+          </div>
+
+          <!-- OVERLAY: PAUSA -->
+          <div class="pr-overlay" id="prPauseOverlay">
+            <div class="pr-overlay-title">⏸️ Jogo Pausado</div>
+            <button class="pr-play-btn" id="prResumeBtn" type="button">▶️</button>
+          </div>
+
+          <!-- OVERLAY: TEMPO ESGOTADO (transição rápida) -->
+          <div class="pr-overlay" id="prTimeoutOverlay">
+            <div class="pr-overlay-title">Tempo esgotado! ⏰</div>
+            <p class="pr-overlay-sub" id="prTimeoutSub">ninguém ganhou ponto nessa rodada</p>
+          </div>
+
+          <!-- OVERLAY: VITÓRIA -->
+          <div class="pr-overlay" id="prWinOverlay">
+            <div class="pr-heart-confetti" id="prConfetti"></div>
+            <div class="pr-overlay-title">🎉 Quem ganhou?</div>
+            <div class="pr-win-trophy">🏆</div>
+            <div class="pr-win-name" id="prWinName">Jogador 1</div>
+            <div class="pr-overlay-sub">VOCÊ VENCEU! 🏆</div>
+            <div class="pr-final-score" id="prFinalScore">João — 10 pontos · Maria — 7 pontos</div>
+            <div class="pr-overlay-actions">
+              <button class="pr-confirm-btn" id="prPlayAgainBtn" type="button">Jogar Novamente</button>
+              <button class="pr-submit-btn" id="prBackToGamesBtn" type="button">Voltar aos Minigames</button>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="reveal-btn show" id="prExitBtn" type="button" style="margin-top:26px;">voltar aos mini games ♥</button>
       </div>
     </div>
   </section>
@@ -4124,6 +4343,304 @@
       quizObserver.observe(quizScreenEl, { attributes:true, attributeFilter:['class'] });
       if(quizScreenEl.classList.contains('active')) startQuiz();
     }
+  })();
+
+  /* ================= MINIGAME "PALAVRAS RÁPIDAS" ================= */
+  (function(){
+    const screenEl = document.querySelector('.screen[data-screen="palavras"]');
+    if(!screenEl) return;
+
+    const pickerEl = document.getElementById('prPicker');
+    const roundEl = document.getElementById('prRound');
+    const scoreboardEl = document.getElementById('prScoreboard');
+    const pauseBtn = document.getElementById('prPauseBtn');
+
+    const num1Input = document.getElementById('prNum1');
+    const num2Input = document.getElementById('prNum2');
+    const calcRow = document.getElementById('prCalcRow');
+    const confirmBtn = document.getElementById('prConfirmBtn');
+
+    const letterEl = document.getElementById('prLetter');
+    const timerWrap = document.getElementById('prTimerWrap');
+    const ringFg = document.getElementById('prRingFg');
+    const timerNum = document.getElementById('prTimerNum');
+    const wordPrompt = document.getElementById('prWordPrompt');
+    const wordInput = document.getElementById('prWordInput');
+    const submitBtn = document.getElementById('prSubmitBtn');
+    const feedbackEl = document.getElementById('prFeedback');
+
+    const scoreP1El = document.getElementById('prScoreP1');
+    const scoreP2El = document.getElementById('prScoreP2');
+
+    const pauseOverlay = document.getElementById('prPauseOverlay');
+    const resumeBtn = document.getElementById('prResumeBtn');
+    const timeoutOverlay = document.getElementById('prTimeoutOverlay');
+    const winOverlay = document.getElementById('prWinOverlay');
+    const winNameEl = document.getElementById('prWinName');
+    const finalScoreEl = document.getElementById('prFinalScore');
+    const confettiWrap = document.getElementById('prConfetti');
+    const playAgainBtn = document.getElementById('prPlayAgainBtn');
+    const backToGamesBtn = document.getElementById('prBackToGamesBtn');
+    const exitBtn = document.getElementById('prExitBtn');
+
+    const ROUND_SECONDS = 20;
+    const WIN_SCORE = 10;
+    const RING_CIRC = 2 * Math.PI * 34;
+    ringFg.style.strokeDasharray = RING_CIRC;
+    ringFg.style.strokeDashoffset = 0;
+
+    let score1 = 0, score2 = 0;
+    let currentTurn = 1;
+    let currentLetter = 'A';
+    let timeLeft = ROUND_SECONDS;
+    let timerId = null;
+    let paused = false;
+    let transitioning = false;
+    let roundActive = false;
+
+    function randomLetter(){
+      return String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    }
+
+    function letterFromSum(sum){
+      const idx = ((sum - 1) % 26 + 26) % 26; // 0-25
+      return String.fromCharCode(65 + idx);
+    }
+
+    function updateCalcRow(){
+      const n1 = parseInt(num1Input.value, 10);
+      const n2 = parseInt(num2Input.value, 10);
+      const valid = Number.isInteger(n1) && Number.isInteger(n2) && n1 > 0 && n2 > 0;
+      confirmBtn.disabled = !valid;
+      if(valid){
+        calcRow.textContent = n1 + ' + ' + n2 + ' = ' + (n1 + n2) + '  →  🔤 ' + letterFromSum(n1 + n2);
+      } else {
+        calcRow.innerHTML = '&nbsp;';
+      }
+    }
+    num1Input.addEventListener('input', updateCalcRow);
+    num2Input.addEventListener('input', updateCalcRow);
+
+    function showPicker(){
+      roundActive = false;
+      pickerEl.style.display = '';
+      roundEl.style.display = 'none';
+      scoreboardEl.style.display = 'none';
+      pauseBtn.style.display = 'none';
+      num1Input.value = '';
+      num2Input.value = '';
+      updateCalcRow();
+    }
+
+    function updateScoreboard(){
+      scoreP1El.textContent = score1;
+      scoreP2El.textContent = score2;
+    }
+
+    function bumpScore(playerNum){
+      const el = playerNum === 1 ? scoreP1El : scoreP2El;
+      el.classList.remove('bump');
+      void el.offsetWidth;
+      el.classList.add('bump');
+    }
+
+    function setLetter(letter){
+      currentLetter = letter;
+      letterEl.style.animation = 'none';
+      void letterEl.offsetWidth;
+      letterEl.style.animation = '';
+      letterEl.textContent = letter;
+      wordPrompt.textContent = 'Vez de Jogador ' + currentTurn + ' — digite uma palavra que comece com ' + letter + '!';
+    }
+
+    function startTimerRing(){
+      updateRing();
+    }
+
+    function updateRing(){
+      const offset = RING_CIRC * (1 - timeLeft / ROUND_SECONDS);
+      ringFg.style.strokeDashoffset = offset;
+      timerNum.textContent = timeLeft;
+      if(timeLeft <= 5){
+        timerWrap.classList.add('urgent');
+      } else {
+        timerWrap.classList.remove('urgent');
+      }
+    }
+
+    function clearTimerInterval(){
+      if(timerId){ clearInterval(timerId); timerId = null; }
+    }
+
+    function tick(){
+      if(paused) return;
+      timeLeft--;
+      updateRing();
+      if(timeLeft <= 0){
+        clearTimerInterval();
+        handleTimeout();
+      }
+    }
+
+    function startRound(letter){
+      transitioning = false;
+      roundActive = true;
+      pickerEl.style.display = 'none';
+      roundEl.style.display = '';
+      scoreboardEl.style.display = '';
+      pauseBtn.style.display = '';
+      pauseOverlay.classList.remove('show');
+      timeoutOverlay.classList.remove('show');
+      winOverlay.classList.remove('show');
+      feedbackEl.textContent = '\u00A0';
+      feedbackEl.className = 'pr-feedback';
+      wordInput.value = '';
+      wordInput.classList.remove('valid','invalid');
+      setLetter(letter);
+      timeLeft = ROUND_SECONDS;
+      updateRing();
+      clearTimerInterval();
+      timerId = setInterval(tick, 1000);
+      setTimeout(() => wordInput.focus(), 50);
+    }
+
+    function handleTimeout(){
+      if(!roundActive) return;
+      transitioning = true;
+      roundActive = false;
+      timeoutOverlay.classList.add('show');
+      setTimeout(() => {
+        if(paused) { timeoutOverlay.classList.remove('show'); transitioning = false; return; }
+        timeoutOverlay.classList.remove('show');
+        currentTurn = currentTurn === 1 ? 2 : 1;
+        startRound(randomLetter());
+      }, 1400);
+    }
+
+    function isValidWord(word, letter){
+      const trimmed = word.trim();
+      if(!trimmed) return false;
+      return trimmed.charAt(0).toUpperCase() === letter.toUpperCase();
+    }
+
+    function submitWord(){
+      if(!roundActive || transitioning || paused) return;
+      const word = wordInput.value;
+      if(isValidWord(word, currentLetter)){
+        wordInput.classList.remove('invalid');
+        wordInput.classList.add('valid');
+        feedbackEl.textContent = '✅ Boa! Palavra válida!';
+        feedbackEl.className = 'pr-feedback ok';
+        clearTimerInterval();
+        roundActive = false;
+        transitioning = true;
+
+        if(currentTurn === 1){ score1++; } else { score2++; }
+        updateScoreboard();
+        bumpScore(currentTurn);
+
+        if(score1 >= WIN_SCORE || score2 >= WIN_SCORE){
+          setTimeout(showWin, 700);
+        } else {
+          setTimeout(() => {
+            currentTurn = currentTurn === 1 ? 2 : 1;
+            startRound(randomLetter());
+          }, 800);
+        }
+      } else {
+        wordInput.classList.remove('valid');
+        wordInput.classList.add('invalid');
+        feedbackEl.textContent = '❌ Palavra inválida!';
+        feedbackEl.className = 'pr-feedback bad';
+        setTimeout(() => wordInput.classList.remove('invalid'), 350);
+      }
+    }
+
+    submitBtn.addEventListener('click', submitWord);
+    wordInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){ e.preventDefault(); submitWord(); }
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      const n1 = parseInt(num1Input.value, 10);
+      const n2 = parseInt(num2Input.value, 10);
+      if(!Number.isInteger(n1) || !Number.isInteger(n2) || n1 <= 0 || n2 <= 0) return;
+      currentTurn = 1;
+      startRound(letterFromSum(n1 + n2));
+    });
+
+    /* -------- PAUSE / RESUME -------- */
+    pauseBtn.addEventListener('click', () => {
+      if(!roundActive || transitioning || paused) return;
+      paused = true;
+      clearTimerInterval();
+      pauseOverlay.classList.add('show');
+    });
+
+    resumeBtn.addEventListener('click', () => {
+      if(!paused) return;
+      paused = false;
+      pauseOverlay.classList.remove('show');
+      timerId = setInterval(tick, 1000);
+      setTimeout(() => wordInput.focus(), 50);
+    });
+
+    /* -------- VICTORY -------- */
+    function spawnConfetti(){
+      confettiWrap.innerHTML = '';
+      const hearts = ['♥','💕','♡','💗'];
+      for(let i = 0; i < 22; i++){
+        const span = document.createElement('span');
+        span.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        span.style.left = Math.random() * 100 + '%';
+        span.style.animationDuration = (1.4 + Math.random() * 1.4) + 's';
+        span.style.animationDelay = (Math.random() * 0.6) + 's';
+        span.style.fontSize = (14 + Math.random() * 14) + 'px';
+        confettiWrap.appendChild(span);
+      }
+    }
+
+    function showWin(){
+      roundActive = false;
+      transitioning = false;
+      clearTimerInterval();
+      const winner = score1 >= WIN_SCORE ? 1 : 2;
+      winNameEl.textContent = 'Jogador ' + winner;
+      finalScoreEl.textContent = 'Jogador 1 — ' + score1 + ' pontos · Jogador 2 — ' + score2 + ' pontos';
+      winOverlay.classList.add('show');
+      spawnConfetti();
+    }
+
+    function resetGame(){
+      clearTimerInterval();
+      score1 = 0; score2 = 0;
+      currentTurn = 1;
+      paused = false;
+      transitioning = false;
+      roundActive = false;
+      updateScoreboard();
+      pauseOverlay.classList.remove('show');
+      timeoutOverlay.classList.remove('show');
+      winOverlay.classList.remove('show');
+      showPicker();
+    }
+
+    playAgainBtn.addEventListener('click', () => {
+      resetGame();
+    });
+
+    backToGamesBtn.addEventListener('click', () => {
+      resetGame();
+      if(window.miniGames) window.miniGames.closeSubScreen('palavras');
+    });
+
+    exitBtn.addEventListener('click', () => {
+      resetGame();
+      if(window.miniGames) window.miniGames.closeSubScreen('palavras');
+    });
+
+    // estado inicial
+    resetGame();
   })();
 </script>
 
