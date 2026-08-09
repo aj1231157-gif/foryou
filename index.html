@@ -66,9 +66,9 @@
     padding:80px 20px 60px;
     opacity:0; transform:translateY(3%);
     transition:opacity .55s ease, transform .55s ease;
-    pointer-events:none; z-index:1;
+    pointer-events:none; z-index:1; visibility:hidden;
   }
-  .screen.active{ opacity:1; transform:translateY(0); pointer-events:all; z-index:2; }
+  .screen.active{ opacity:1; transform:translateY(0); pointer-events:all; z-index:2; visibility:visible; }
   .screen-inner{ width:100%; max-width:1000px; margin:0 auto; text-align:center; }
 
   #screenEyebrow{
@@ -307,7 +307,8 @@
     opacity:0; transform:translateY(8px) scale(.9); pointer-events:none;
     transition:opacity .4s ease, transform .4s ease;
   }
-  .reveal-btn.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; animation:popIn .5s ease; }
+  .reveal-btn.show{ opacity:1; transform:translateY(0) scale(1); animation:popIn .5s ease; }
+  .screen.active .reveal-btn.show{ pointer-events:all; }
   @keyframes popIn{ 0%{ transform:scale(.7); } 60%{ transform:scale(1.08); } 100%{ transform:scale(1); } }
 
   /* ---------- LETTER + WAX SEAL ---------- */
@@ -1211,6 +1212,11 @@
   .mem-win-title{ font-family:'Fraunces',serif; font-style:italic; font-size:21px; margin:4px 0 10px; }
   .mem-win-sub{ font-size:12px; color:#6B4A52; letter-spacing:.4px; margin-bottom:14px; }
   .mem-win-msg{ font-size:13.5px; line-height:1.65; font-style:italic; margin-bottom:22px; color:#4A2F38; }
+  .mem-win-back-btn{
+    display:inline-block; margin-top:14px; background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border:none;
+    border-radius:30px; padding:12px 26px; font-size:13px; letter-spacing:.5px; font-family:'Work Sans',sans-serif;
+    font-weight:500; cursor:pointer; box-shadow:0 10px 26px rgba(107,42,58,0.4);
+  }
 
   @media(max-width:640px){
     .mem-board{ grid-template-columns:repeat(4,1fr); gap:8px; }
@@ -1855,7 +1861,7 @@
             <p class="mem-win-sub" id="memWinStats">em 00:00 · 0 tentativas</p>
             <p class="mem-win-msg">cada foto é um momento nosso que eu guardo com carinho</p>
             <button class="mem-restart-btn" id="memWinRestartBtn" type="button">Jogar de novo</button>
-            <button class="reveal-btn show" id="memWinBackBtn" type="button">voltar aos mini games ♥</button>
+            <button class="mem-win-back-btn" id="memWinBackBtn" type="button">voltar aos mini games ♥</button>
           </div>
         </div>
       </div>
