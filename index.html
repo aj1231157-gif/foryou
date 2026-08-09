@@ -55,6 +55,7 @@
   }
 
   #ambientCanvas{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+  #romanticFxCanvas{ position:fixed; inset:0; z-index:0; pointer-events:none; will-change:transform; }
 
   /* ---------- SCREENS ---------- */
   #screens{ position:fixed; inset:0; z-index:1; }
@@ -1453,6 +1454,7 @@
 </head>
 <body>
 <canvas id="ambientCanvas"></canvas>
+<canvas id="romanticFxCanvas" aria-hidden="true"></canvas>
 
 <!-- Cursor personalizado -->
 <div class="custom-cursor" id="customCursor">♥</div>
@@ -2335,6 +2337,161 @@
       requestAnimationFrame(draw);
     }
     draw();
+  })();
+
+  /* -------- romantic global layer: falling hearts + peony petals -------- */
+  (function(){
+    const canvas = document.getElementById('romanticFxCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w, h, dpr;
+
+    function sizeCanvas(){
+      w = window.innerWidth; h = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    sizeCanvas();
+    let resizeT;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeT);
+      resizeT = setTimeout(sizeCanvas, 150);
+    });
+
+    const isMobile = window.innerWidth < 700;
+    const HEART_COUNT = isMobile ? 10 : 18;
+    const PETAL_COUNT = isMobile ? 8 : 14;
+    const HEART_COLORS = ['rgba(232,167,152,ALPHA)', 'rgba(180,101,122,ALPHA)', 'rgba(245,236,228,ALPHA)'];
+    const PETAL_COLORS = [
+      ['rgba(245,225,222,ALPHA)', 'rgba(232,167,152,ALPHA)'],
+      ['rgba(243,232,218,ALPHA)', 'rgba(180,101,122,ALPHA)'],
+      ['rgba(250,235,235,ALPHA)', 'rgba(232,167,152,ALPHA)']
+    ];
+
+    function rand(a,b){ return a + Math.random()*(b-a); }
+
+    function makeHeart(spawnAnywhere){
+      return {
+        x: rand(0, w),
+        y: spawnAnywhere ? rand(-h, h) : rand(-h*0.3, -10),
+        size: rand(7, 17),
+        vy: rand(0.18, 0.5),
+        vxAmp: rand(6, 22),
+        vxFreq: rand(0.25, 0.6),
+        phase: rand(0, Math.PI*2),
+        rot: rand(0, Math.PI*2),
+        rotSpeed: rand(-0.006, 0.006),
+        alpha: rand(0.18, 0.42),
+        color: HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)],
+        t: rand(0, 1000)
+      };
+    }
+    function makePetal(spawnAnywhere){
+      const c = PETAL_COLORS[Math.floor(Math.random()*PETAL_COLORS.length)];
+      return {
+        x: rand(0, w),
+        y: spawnAnywhere ? rand(-h, h) : rand(-h*0.5, -10),
+        wsize: rand(9, 16),
+        hsize: rand(14, 24),
+        vy: rand(0.22, 0.55),
+        vxAmp: rand(10, 34),
+        vxFreq: rand(0.15, 0.4),
+        phase: rand(0, Math.PI*2),
+        rot: rand(0, Math.PI*2),
+        rotSpeed: rand(-0.012, 0.012),
+        alpha: rand(0.28, 0.55),
+        colorA: c[0], colorB: c[1],
+        t: rand(0, 1000),
+        delay: spawnAnywhere ? 0 : rand(0, 400)
+      };
+    }
+
+    const hearts = Array.from({length:HEART_COUNT}, ()=>makeHeart(true));
+    const petals = Array.from({length:PETAL_COUNT}, ()=>makePetal(true));
+
+    function drawHeart(p){
+      const a = p.alpha.toFixed(3);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      const s = p.size / 16;
+      ctx.scale(s, s);
+      ctx.beginPath();
+      ctx.moveTo(0, 4);
+      ctx.bezierCurveTo(-8, -4, -16, 2, 0, 14);
+      ctx.bezierCurveTo(16, 2, 8, -4, 0, 4);
+      ctx.closePath();
+      ctx.fillStyle = p.color.replace('ALPHA', a);
+      ctx.shadowColor = p.color.replace('ALPHA', '0.5');
+      ctx.shadowBlur = 4;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawPetal(p){
+      const a = p.alpha.toFixed(3);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      const gw = p.wsize, gh = p.hsize;
+      const grad = ctx.createLinearGradient(0, -gh/2, 0, gh/2);
+      grad.addColorStop(0, p.colorA.replace('ALPHA', a));
+      grad.addColorStop(1, p.colorB.replace('ALPHA', (p.alpha*0.85).toFixed(3)));
+      ctx.beginPath();
+      ctx.moveTo(0, -gh/2);
+      ctx.bezierCurveTo(gw/2, -gh/4, gw/2, gh/4, 0, gh/2);
+      ctx.bezierCurveTo(-gw/2, gh/4, -gw/2, -gh/4, 0, -gh/2);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    let running = true;
+    document.addEventListener('visibilitychange', ()=>{
+      running = !document.hidden;
+      if(running) requestAnimationFrame(loop);
+    });
+
+    function loop(){
+      if(!running) return;
+      ctx.clearRect(0, 0, w, h);
+
+      hearts.forEach(p=>{
+        p.t += 0.016;
+        if(!reduce){
+          p.y += p.vy;
+          p.x += Math.sin(p.t * p.vxFreq + p.phase) * (p.vxAmp * 0.02);
+          p.rot += p.rotSpeed;
+        }
+        drawHeart(p);
+        if(p.y - p.size > h + 20){
+          Object.assign(p, makeHeart(false));
+        }
+      });
+
+      petals.forEach(p=>{
+        if(p.delay > 0){ p.delay -= 1; return; }
+        p.t += 0.016;
+        if(!reduce){
+          p.y += p.vy;
+          p.x += Math.sin(p.t * p.vxFreq + p.phase) * (p.vxAmp * 0.02);
+          p.rot += p.rotSpeed;
+        }
+        drawPetal(p);
+        if(p.y - p.hsize > h + 30){
+          Object.assign(p, makePetal(false));
+        }
+      });
+
+      requestAnimationFrame(loop);
+    }
+    loop();
   })();
 
   /* -------- hero typewriter -------- */
