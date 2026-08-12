@@ -86,12 +86,6 @@
     text-align:left; max-width:480px; margin-left:clamp(16px,9vw,130px); margin-right:auto;
   }
 
-  /* garante que a tela do envelope fique perfeitamente centralizada */
-  .screen[data-screen="envelope"] .screen-inner{
-    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-    width:100%; margin-left:auto; margin-right:auto;
-  }
-
   .top-label{ font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--purple-light); opacity:.85; margin-bottom:20px; }
   .top-label::before{ content:'✦ '; }
   .screen[data-screen="0"] h1{
@@ -657,76 +651,6 @@
   .mines-message.win{ color:#8FE3B0; }
   .mines-message.lose{ color:#E88C8C; }
 
-  /* ---------- ENVELOPE (SWIPE-UP LETTER) ---------- */
-  .envelope-stage{
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    width:100%; margin:0 auto;
-    transition:opacity .5s ease, transform .5s ease;
-  }
-  .envelope-stage.hide{ opacity:0; transform:translateY(-14px) scale(.96); pointer-events:none; position:absolute; left:0; right:0; }
-  .envelope-scene{
-    position:relative; width:270px; height:180px; margin:10px auto 26px;
-    touch-action:none; user-select:none; cursor:grab;
-  }
-  .envelope-scene.dragging{ cursor:grabbing; }
-  .envelope-back{
-    position:absolute; inset:0; border-radius:6px; overflow:hidden;
-    background:linear-gradient(160deg,var(--purple-light),var(--purple) 60%,#3A1420);
-    box-shadow:0 22px 44px rgba(0,0,0,.4);
-  }
-  .envelope-back::before, .envelope-back::after{
-    content:''; position:absolute; bottom:0; width:0; height:0; border-style:solid;
-  }
-  .envelope-back::before{
-    left:0; border-width:0 0 90px 135px; border-color:transparent transparent rgba(255,255,255,0.07) transparent;
-  }
-  .envelope-back::after{
-    right:0; border-width:90px 0 0 135px; border-color:transparent transparent transparent rgba(0,0,0,0.16);
-  }
-  .letter-peek{
-    position:absolute; left:10px; right:10px; top:8px; height:82%; z-index:2;
-    background:var(--paper); border-radius:4px; box-shadow:0 -4px 14px rgba(0,0,0,.25);
-    transform:translateY(88%); transition:transform .55s cubic-bezier(.4,0,.2,1);
-    display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
-  }
-  .letter-peek .peek-heart{ font-size:16px; color:var(--purple); opacity:.55; }
-  .envelope-flap{
-    position:absolute; top:0; left:0; width:100%; height:56%; z-index:3;
-    background:linear-gradient(135deg,var(--purple-light),var(--purple) 70%);
-    clip-path:polygon(0 0,100% 0,50% 96%);
-    transform-origin:top center; transform:rotateX(0deg);
-    transition:transform .6s cubic-bezier(.4,0,.2,1);
-    backface-visibility:hidden;
-    box-shadow:0 6px 14px rgba(0,0,0,.3);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .envelope-seal{
-    width:38px; height:38px; border-radius:50%; margin-top:-6px;
-    background:radial-gradient(circle at 32% 28%,#F0BFAE,var(--pink) 55%,#7A2E3E 100%);
-    display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,.35);
-  }
-  .swipe-guide{ display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
-  .swipe-arrow{ font-size:20px; color:var(--pink); display:inline-block; animation:swipeBounce 1.6s ease-in-out infinite; }
-  @keyframes swipeBounce{ 0%,100%{ transform:translateY(0); opacity:.55; } 50%{ transform:translateY(-8px); opacity:1; } }
-
-  .big-letter-stage{
-    width:100%; max-width:640px; margin-left:auto; margin-right:auto; opacity:0; transform:translateY(18px) scale(.97);
-    transition:opacity .55s ease, transform .55s ease; pointer-events:none;
-  }
-  .big-letter-stage.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
-  .big-letter{
-    background:var(--paper); color:#2B1B3D; width:100%; padding:44px 40px 34px;
-    border-radius:6px 6px 4px 4px; box-shadow:0 30px 70px rgba(107,42,58,0.3); position:relative; min-height:340px;
-  }
-  .big-letter .quote-mark{ font-size:40px; color:var(--purple); opacity:.5; line-height:0; }
-  .big-letter-body{
-    font-size:19px; line-height:1.9; font-style:italic; font-family:'Fraunces',serif; margin-top:10px;
-    min-height:200px; outline:none;
-  }
-  .big-letter-body::first-letter{ font-size:2.4em; float:left; line-height:.78; padding:4px 8px 0 0; font-style:normal; font-weight:700; color:var(--purple); }
-  .big-letter .sign-off{ margin-top:26px; text-align:right; font-size:15px; opacity:.7; font-family:'Work Sans',sans-serif; outline:none; }
-
   /* ---------- TIMELINE + PULL TAB ---------- */
   .timeline{ position:relative; padding-top:6px; width:100%; }
   .timeline::before{
@@ -1099,9 +1023,6 @@
     .letter-body{ font-size:15.5px; }
     .hold-heart{ width:86px; height:86px; }
     .dinner-table{ padding:30px 14px 20px; }
-    .envelope-scene{ width:88vw; max-width:270px; }
-    .big-letter{ padding:30px 22px 26px; }
-    .big-letter-body{ font-size:16.5px; }
     .tl-card{ width:calc(100% - 50px); }
     .tl-item, .tl-item.right{ flex-direction:row; }
     .tl-item.right .tl-card-inner{ text-align:left; flex-direction:row; }
@@ -1446,6 +1367,161 @@
     .pr-letter{ font-size:80px; }
     .pr-scoreboard{ font-size:13px; padding:10px 14px; }
     .pr-player-box{ width:130px; }
+  }
+  /* ---------- TELA CARTA: ENVELOPE (cinematográfico) ---------- */
+  .carta-ornament{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-bottom:10px; opacity:.9;
+  }
+  .carta-ornament .orn-line{
+    width:36px; height:1px; background:linear-gradient(90deg, transparent, var(--pink));
+  }
+  .carta-ornament .orn-line:last-child{ background:linear-gradient(90deg, var(--pink), transparent); }
+  .carta-ornament .orn-heart{
+    color:var(--pink); font-size:13px; filter:drop-shadow(0 0 5px rgba(232,167,152,.55));
+  }
+  .carta-leaf{
+    display:inline-block; width:9px; height:15px; margin-right:9px; vertical-align:middle;
+    border-radius:0 100% 0 100%; transform:rotate(-18deg) translateY(-2px);
+    background:linear-gradient(160deg,var(--purple-light),var(--purple)); opacity:.9;
+  }
+
+  .envelope-stage{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+    perspective:1400px; transition:opacity .5s ease, filter .5s ease;
+  }
+  .envelope-stage.hide{
+    opacity:0; filter:blur(6px); pointer-events:none; position:absolute;
+  }
+  .envelope-scene{
+    position:relative; width:260px; height:170px; cursor:grab; z-index:2;
+    touch-action:none; user-select:none; -webkit-user-select:none;
+    transform-style:preserve-3d; will-change:transform;
+  }
+  .envelope-scene.dragging{ cursor:grabbing; }
+  .envelope-glow{
+    position:absolute; left:50%; top:50%; width:360px; height:360px;
+    transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; z-index:1;
+    background:radial-gradient(circle, rgba(232,167,152,0.4) 0%, rgba(232,167,152,0.14) 40%, transparent 72%);
+    opacity:0; transition:opacity .6s ease; filter:blur(2px);
+  }
+  .envelope-stage.opening .envelope-glow{ opacity:1; }
+
+  /* rosas decorativas flanqueando o envelope */
+  .carta-rose{ position:absolute; bottom:-34px; width:160px; height:160px; pointer-events:none; z-index:0; opacity:.92; }
+  .carta-rose-left{ left:-76px; }
+  .carta-rose-right{ right:-76px; }
+  .rose-bloom{
+    position:absolute; border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 28%, var(--pink) 0%, transparent 58%),
+      radial-gradient(circle at 68% 42%, var(--purple-light) 0%, transparent 62%),
+      radial-gradient(circle at 46% 68%, var(--purple) 0%, transparent 68%);
+    box-shadow:inset 0 0 22px rgba(0,0,0,.35), 0 8px 22px rgba(107,42,58,.25);
+    filter:blur(.2px);
+  }
+  .carta-rose .rb1{ width:96px; height:96px; left:14px; bottom:6px; }
+  .carta-rose .rb2{ width:62px; height:62px; left:76px; bottom:44px; opacity:.85; }
+  .carta-rose .rb3{ width:46px; height:46px; left:34px; bottom:78px; opacity:.7; }
+  .carta-rose .rb-leaf{
+    position:absolute; width:26px; height:14px; border-radius:0 100% 0 100%;
+    background:linear-gradient(160deg, rgba(232,167,152,.5), rgba(89,5,3,.55));
+    left:58px; bottom:2px; transform:rotate(24deg);
+  }
+
+  .envelope-back{
+    position:absolute; inset:0; border-radius:6px; z-index:1;
+    background:linear-gradient(160deg, var(--pink) 0%, var(--purple-light) 55%, var(--purple) 100%);
+    box-shadow:0 20px 50px rgba(107,42,58,0.4);
+    backface-visibility:hidden;
+  }
+  .envelope-front-flap{
+    position:absolute; bottom:0; left:0; right:0; height:0; z-index:2;
+    border-style:solid; border-width:95px 130px 0 130px;
+    border-color:var(--purple-light) transparent transparent transparent;
+    opacity:.95; filter:drop-shadow(0 -4px 8px rgba(0,0,0,.18));
+  }
+  .letter-peek{
+    position:absolute; left:10%; right:10%; top:0; height:80%; z-index:3;
+    background:var(--paper); border-radius:4px 4px 0 0;
+    transform:translateY(88%);
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    text-align:center; padding-top:14px; gap:3px;
+    box-shadow:0 -6px 16px rgba(0,0,0,0.15);
+    will-change:transform, box-shadow;
+  }
+  .peek-heart{ color:var(--purple); font-size:16px; opacity:.75; }
+  .peek-line{
+    font-family:'Fraunces',serif; font-style:italic; color:#5B2F3D;
+    font-size:12px; line-height:1.3; opacity:.85;
+  }
+  .peek-swirl{ color:var(--purple-light); font-size:11px; opacity:.6; margin-top:2px; }
+  .envelope-seal{
+    position:absolute; left:50%; bottom:12px; transform:translate(-50%,0); z-index:4;
+    width:34px; height:34px; border-radius:50%;
+    background:radial-gradient(circle at 34% 30%, #ff9fae 0%, var(--purple-light) 46%, var(--purple) 100%);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff2ef; font-size:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,.35), inset 0 1px 2px rgba(255,255,255,.5);
+    filter:drop-shadow(0 0 6px rgba(232,167,152,.5));
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .envelope-flap{
+    position:absolute; top:0; left:0; right:0; height:0; z-index:5;
+    border-style:solid;
+    border-width:0 130px 95px 130px; border-color:transparent transparent var(--pink) transparent;
+    transform-origin:top center; transform:rotateX(0deg);
+    will-change:transform; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+  }
+  .swipe-guide{ display:flex; flex-direction:column; align-items:center; gap:8px; transition:opacity .4s ease; }
+  .swipe-arrow{ font-size:20px; color:var(--pink); display:inline-block; animation:swipeBounce 1.6s ease-in-out infinite; }
+  @keyframes swipeBounce{ 0%,100%{ transform:translateY(0); opacity:.55; } 50%{ transform:translateY(-8px); opacity:1; } }
+
+  /* partículas discretas (corações e brilhos) */
+  .envelope-particles{
+    position:absolute; left:50%; top:38%; width:2px; height:2px; pointer-events:none; z-index:6;
+  }
+  .ep-particle{
+    position:absolute; left:0; top:0; opacity:0; will-change:transform, opacity;
+    color:var(--pink); font-size:12px;
+  }
+
+  .big-letter-stage{
+    width:100%; max-width:640px; margin:0 auto; opacity:0;
+    transform:translateY(46px) scale(.9) rotateX(8deg);
+    filter:blur(4px);
+    pointer-events:none; display:none;
+    perspective:1000px;
+  }
+  .big-letter-stage.show{
+    display:block; pointer-events:all;
+    animation:letterRise 1.15s cubic-bezier(.22,.72,.24,1) forwards;
+  }
+  @keyframes letterRise{
+    0%{ opacity:0; transform:translateY(46px) scale(.9) rotateX(8deg); filter:blur(4px); }
+    55%{ opacity:1; transform:translateY(-6px) scale(1.015) rotateX(-1deg); filter:blur(0); }
+    75%{ transform:translateY(2px) scale(1.005) rotateX(.4deg); }
+    100%{ opacity:1; transform:translateY(0) scale(1) rotateX(0deg); filter:blur(0); }
+  }
+  .big-letter{
+    background:var(--paper); color:#2B1B3D; width:100%; padding:44px 40px 34px;
+    border-radius:6px 6px 4px 4px; box-shadow:0 30px 70px rgba(107,42,58,0.3); position:relative;
+    max-height:60vh; overflow-y:auto;
+  }
+  .big-letter .quote-mark{ font-size:40px; color:var(--purple); opacity:.5; line-height:0; }
+  .big-letter-body{
+    font-size:18px; line-height:1.85; font-style:italic; font-family:'Fraunces',serif; margin-top:10px;
+    outline:none; text-align:left;
+  }
+  .big-letter-body p{ margin:0 0 18px; }
+  .big-letter-body::first-letter{ font-size:2.4em; float:left; line-height:.78; padding:4px 8px 0 0; font-style:normal; font-weight:700; color:var(--purple); }
+  .big-letter .sign-off{ margin-top:26px; text-align:right; font-size:15px; opacity:.7; font-family:'Work Sans',sans-serif; }
+
+  @media (prefers-reduced-motion: reduce){
+    .envelope-scene, .letter-peek, .envelope-flap{ transition:none !important; }
+    .big-letter-stage.show{ animation:none !important; opacity:1; transform:none; filter:none; }
+    .swipe-arrow{ animation:none !important; }
   }
 </style>
 </head>
@@ -2086,35 +2162,111 @@
     </div>
   </section>
 
-  <!-- TELA FINAL: ENVELOPE -->
-  <section class="screen" data-screen="envelope">
+  <!-- TELA CARTA -->
+  <section class="screen" data-screen="carta">
     <div class="screen-inner">
-      <h2 class="section-title">Uma Carta Especial</h2>
+      <div class="carta-ornament" aria-hidden="true">
+        <span class="orn-line"></span><span class="orn-heart">&#9829;</span><span class="orn-line"></span>
+      </div>
+      <h2 class="section-title"><span class="carta-leaf" aria-hidden="true"></span>Uma Carta Especial</h2>
       <p class="section-sub" id="envelopeSectionSub">arraste o envelope pra cima pra abrir</p>
 
       <div class="envelope-stage" id="envelopeStage">
+        <div class="carta-rose carta-rose-left" aria-hidden="true">
+          <span class="rose-bloom rb1"></span><span class="rose-bloom rb2"></span><span class="rose-bloom rb3"></span>
+          <span class="rb-leaf"></span>
+        </div>
+        <div class="carta-rose carta-rose-right" aria-hidden="true">
+          <span class="rose-bloom rb1"></span><span class="rose-bloom rb2"></span><span class="rose-bloom rb3"></span>
+          <span class="rb-leaf"></span>
+        </div>
+        <div class="envelope-glow" id="envelopeGlow"></div>
         <div class="envelope-scene" id="envelopeScene">
           <div class="envelope-back"></div>
-          <div class="letter-peek"><span class="peek-heart">♥</span></div>
-          <div class="envelope-flap" id="envelopeFlap"><div class="envelope-seal">♥</div></div>
+          <div class="envelope-front-flap"></div>
+          <div class="letter-peek">
+            <span class="peek-heart">&#9829;</span>
+            <span class="peek-line">Para você,</span>
+            <span class="peek-line">com todo o meu amor.</span>
+            <span class="peek-swirl">&#10086;</span>
+          </div>
+          <div class="envelope-seal" id="envelopeSeal">&#9829;</div>
+          <div class="envelope-flap" id="envelopeFlap"></div>
+          <div class="envelope-particles" id="envelopeParticles"></div>
         </div>
-        <div class="swipe-guide">
-          <span class="swipe-arrow">↑</span>
+        <div class="swipe-guide" id="swipeGuide">
+          <span class="swipe-arrow">&uarr;</span>
           <p class="hint-text" id="envelopeHint">arraste pra cima pra abrir</p>
         </div>
       </div>
 
       <div class="big-letter-stage" id="bigLetterStage">
         <div class="big-letter">
-          <div class="quote-mark">"</div>
-          <div class="big-letter-body" contenteditable="true">Escreva aqui a sua carta pra Giovanna, do jeitinho que você quiser... cada palavra sua vale mais do que qualquer coisa que eu poderia escrever.</div>
-          <div class="sign-off" contenteditable="true">— com todo o meu amor</div>
+          <div class="quote-mark">&quot;</div>
+          <div class="big-letter-body">
+              <p>Eu nem sei por onde começar, porque quando o assunto é você, parece que cada texto e palavra ficam pequenos demais. Eu poderia passar horas tentando escrever tudo, mas sempre sinto que vai faltar algo. Lembrar de cada momento nosso é incrível, cada risada, cada abraço, cada segundo parece que eu me apaixono mais e mais.</p>
+              <p>Quando eu penso em nós dois, às vezes é até engraçado, tipo... como tudo começou com um trabalho na sala de informática? Você com aquele cabelo que eu achava engraçado, mas bonito. Lembro bem desse dia, a gente entrando no site do Roblox e tava uma conta logada lá kkkkkk. E depois disso, as coisas mudaram.</p>
+              <p>Passamos longos anos de amizade, momentos ruins e momentos bons. Cada segundo era legal ao seu lado como amigo. Sei que de lá você já me olhava diferente. Eu, por outro lado, não era um garoto muito bom, bem bagunceiro e mulherengo, de certo ponto.</p>
+              <p>Nossa amizade continuou por muitos e muitos anos. Lembro de 2022, de você sentada no chão chorando com saudade do seu vô, e eu fui lá. Lembro bem de te falar sobre a teoria da borboleta:</p>
+              <p>&quot;A borboleta é linda, mas ela não consegue se olhar para saber o quão linda é.&quot;</p>
+              <p>Depois disso? Brigamos e fomos pro Hopi Hari brigados. O motivo? Não sei, mas também não quero lembrar.</p>
+              <p>Lá, brinquei em vários brinquedos. Muitos me deram muito frio na barriga e desespero. Te olhei o parque INTEIRO, e com certeza passar perto de você era o que me dava mais DESESPERO.</p>
+              <p>Quando eu tava sentado na frente do banheiro e te vi, vi você vindo na minha direção e, depois disso, não lembro mais de NADA. Só lembro da gente se divertindo MUITO no barco Viking, tirando fotos juntos e brincando bastanteeeeeeeeeeee com os monstros, do show e de você caindo na passarela do banheiro. Não ri de você, como todos fizeram. Eu te levantei e cuidei de você, como uma princesa merece.</p>
+              <p>Lembro de como eu queria ir embora sentado um do lado do outro. Também lembro de como eu me arrependo de não ter te beijado naquela noite.</p>
+              <p>Depois do nosso primeiro Hopi Hari, depois de alguns meses, brigamos DENOVO. Ficamos nessa de brigar e voltar a se falar por uns 1 ano e 6 meses. E quando começamos a nos falar de novo, no oitavo ano, ainda éramos amigos, mas faltava 1 passo pra tudo mudar.</p>
+              <p>Talvez a nossa história tenha sido um pouco como Riverdale, cheia de reviravoltas, momentos que a gente não entendia e coisas que nunca imaginávamos que iam acontecer. A diferença é que, no nosso caso, eu já sei qual foi o final de todas aquelas confusões: elas acabaram me levando até você.</p>
+              <p>Conversávamos o DIA INTEIRO, até chegar o dia 1º de agosto de 2024, onde estávamos conversando sobre o seu aniversário de 15 anos, e eu com CERTEZA seria o príncipe naquele dia.</p>
+              <p>Depois de planejarmos e falarmos sobre aquele dia, você falou do Dia dos Pais e fez uma brincadeira:</p>
+              <p>&quot;Você aceitaria ser o genro do meu pai?&quot;</p>
+              <p>E eu disse que sim. Logo depois, você SUMIU e foi me responder depois de um bom tempinho. Lembro de você ficar desacreditada com minha resposta, e continuamos conversando todos os dias até o dia 21 de agosto.</p>
+              <p>O pedido de namoro.</p>
+              <p>Lembro de sentar no chão e dizer que queria conversar sério com você. E ali eu disse que conheci uma garota, linda, carinhosa, fofa, gentil, e que era a mulher perfeita e que eu TANTO procurei em outras pessoas e não achei.</p>
+              <p>Não consegui terminar de falar. Você com certeza estava achando que eu tava falando de outra garota. Mas eu olhei pra você, você chorando, eu limpei suas lágrimas, olhei nos seus olhos e disse:</p>
+              <p>&quot;Quer namorar comigo?&quot;</p>
+              <p>E quando eu ouvi um SIM vindo da sua boca, eu pude ter a certeza que ali começou uma história incrível.</p>
+              <p>E hoje, dia 21 de agosto de 2026, faz 2 anos que isso aconteceu. E os sentimentos e o carinho por você não mudaram. Você continua sendo minha pequena, e a princesa que vou cuidar pra toda minha vida. E todos os dias viver ao seu lado como um &quot;príncipe&quot;.</p>
+              <p>Você pode me chamar de Aladdin, porque eu não era príncipe, mas corri atrás da minha princesa até me tornar um príncipe.</p>
+              <p>Mas depois de contar tudo isso, eu percebi que ainda falta falar da parte mais importante de toda essa história: você.</p>
+              <p>Você é a parte mais linda dos meus dias e das minhas noites. Às vezes me pego pensando nos seus olhos, no seu sorriso, no seu cabelo, e me encanto SÓ DE IMAGINAR.</p>
+              <p>Seus olhos têm alguma coisa que eu não sei explicar. Quando olho para eles, eles me fazem rir, mas não é um riso de achar que você é uma palhaça, é um riso de felicidade, como se eu tivesse ganhado um presente de Natal quando era criança. Quando você olha diretamente para mim, eu fico nervoso e com vergonha, mas, ao mesmo tempo, sinto o amor sendo transmitido.</p>
+              <p>Seus olhos são como uma coisa que eu nunca consigo olhar por pouco tempo, porque sempre parece que tem alguma coisa neles que me prende, igual quando eu era criança e ficava vidrado em um desenho sem perceber que o tempo estava passando.</p>
+              <p>E quando você sorri, eu me vejo criança assistindo algum desenho, vidrado na tela, sem conseguir prestar atenção em mais nada. Quando você ri de verdade, eu sei que, na verdade, é a Gigica. E eu sinto que estou cuidando dela como o vô dela cuidou.</p>
+              <p>Eu lembro do seu cabelo, e é até engraçado pensar que naquele primeiro dia eu achava ele engraçado, mas bonito. Hoje, quando olho para você, vejo a minha Princesa de Fogo e o Finn, e vejo muito mais do que simplesmente um cabelo bonito.</p>
+              <p>No seu rosto, com certeza, o que mais chama minha atenção são seus olhos. Acho que eu nem tenho muito o que falar sobre o seu rosto, porque, quando olho para ele, meus olhos sempre acabam voltando para os seus.</p>
+              <p>E quando eu te chamo de &quot;minha pequena&quot; e você faz aquele seu jeito de pequena, eu sinto uma felicidade enorme. Isso também me faz lembrar do seu vô e de como ele cuidava de você. Talvez seja por isso que eu tenha tanto carinho por esse seu jeito.</p>
+              <p>Quando eu abraço você, eu me sinto em paz. Eu me sinto em casa.</p>
+              <p>É como se o mundo pudesse estar fazendo o maior barulho possível, mas, quando eu abraço você, tudo ficasse em silêncio por alguns segundos.</p>
+              <p>Quando seguro sua mão, é como se eu tivesse completado uma missão: achar a minha princesa.</p>
+              <p>Quando você está perto de mim, eu me sinto completo. É como se, quando você está longe, meu coração estivesse partido no meio, e quando você está comigo, ele se junta novamente, como um quebra-cabeça que finalmente encontrou a peça que faltava.</p>
+              <p>E quando você está longe, existe uma saudade constante. Eu fico todos os segundos pensando em você e pensando em quando vou ver você de novo. Acho que o relógio está de mal comigo.</p>
+              <p>Às vezes penso em A Cinco Passos de Você e acho que, se alguém dissesse que eu teria que ficar cinco passos longe de você, eu ia odiar essa regra. Porque cinco passos entre nós já seriam cinco passos demais. Eu não quero você a cinco passos de mim, eu quero você perto, onde eu possa te abraçar, segurar sua mão e olhar para você.</p>
+              <p>E sobre o seu corpo... eu sinto atração, me sinto satisfeito e sinto como se estivesse vendo uma obra-prima, uma paisagem na minha frente. E igual não TEM.</p>
+              <p>Quando você está toda arrumada, eu fico pensando: &quot;Nossa, eu acertei. Que mulher LINDA.&quot;</p>
+              <p>Mas quando você está sem se arrumar, eu ainda assim me encanto. Você é completamente linda, mesmo quando não está tentando ser.</p>
+              <p>Quando você está triste, eu sinto que devo cuidar e proteger você de todo mal. E quando você está feliz, eu sinto felicidade também e quero sempre motivar você para que continue sendo essa pessoa.</p>
+              <p>Se algum dia a vida colocar um &quot;Mundo Invertido&quot; no nosso caminho, eu quero ser a pessoa que vai entrar lá com você, porque não importa o quão difícil seja o caminho, eu não quero que você tenha que enfrentar nenhum Demogorgon sozinha, minha Joyce.</p>
+              <p>A personalidade que eu mais gosto em você é o seu jeito de falar muito e ser carinhosa. Eu amo ouvir você falando, mesmo quando você fala MUITO KKKKKK, porque é simplesmente o seu jeito, e eu amo isso em você.</p>
+              <p>E talvez seja por isso que, mesmo quando você fala sem parar, eu não queira que você fique em silêncio. Porque sua voz, suas histórias e até as coisas mais aleatórias que você fala fazem parte daquele barulho que eu aprendi a amar.</p>
+              <p>Quando penso nos seus sonhos, sinto orgulho e admiração. Quero ver você conquistando tudo aquilo que sonha, quero estar ali para ver cada conquista sua e poder dizer que eu sempre soube que você conseguiria.</p>
+              <p>E quando penso no nosso futuro, às vezes imagino uma cena que ainda nem existe. Imagino a porta da nossa casa, você segurando nossos dois filhos, que ainda nem temos, em uma noite qualquer, enquanto eu chego do trabalho.</p>
+              <p>E quando penso nisso, sinto que você é a mulher certa para cuidar deles.</p>
+              <p>Porque, no fundo, eu não consigo imaginar esse futuro com outra pessoa.</p>
+              <p>Talvez seja por isso que eu não queira que a nossa história tenha um último capítulo. Eu quero que ela continue tendo novos capítulos, novas histórias, novas risadas, novas fotos, novos passeios, novas brigas bobas, novos abraços e milhares de momentos que ainda nem sabemos que vão acontecer.</p>
+              <p>E se alguém me perguntasse o que eu escolheria em você para levar para o resto da minha vida, talvez eu escolhesse seus olhos.</p>
+              <p>Porque foi neles que eu encontrei uma das coisas mais bonitas que já senti: a sensação de ser amado.</p>
+              <p>Bom, espero que você tenha gostado do presente. Fiz tudo com muito carinho e amor, pensando em você em cada detalhe. Cada coisa que eu fiz, cada foto que coloquei, cada pequeno detalhe, foi uma forma de tentar colocar em alguma coisa tudo aquilo que às vezes eu não consigo falar.</p>
+              <p>Espero que, quando você olhar para tudo isso, você consiga sentir pelo menos um pouco do amor que eu sinto por você.</p>
+              <p>E antes de terminar, eu quero que você lembre de uma coisa, minha pequena. Eu sei o quanto seu vô é importante para você e o quanto a saudade dele ainda existe. E eu espero que, de alguma forma, você nunca se esqueça de que o amor que ele deixou em você continua existindo.</p>
+              <p>Eu e seu vô, cada um do seu jeito, sempre vamos estar no seu coração.</p>
+              <p>Então... acho que chegou a hora.</p>
+              <p>Pode abrir a caixinha, pequena. ❤️</p>
+          </div>
+          <div class="sign-off">&mdash; com todo o meu amor</div>
         </div>
-        <button class="reveal-btn" id="envelopeContinueBtn" style="margin-top:22px;">continuar ♥</button>
+        <button class="reveal-btn show" id="letterContinueBtn" style="margin-top:26px;">continuar ♥</button>
       </div>
     </div>
   </section>
-
 
   <!-- TELA QUIZ: QUANTO VOCÊ ME CONHECE -->
   <section class="screen" data-screen="quiz" data-sub="true">
@@ -4121,59 +4273,6 @@
     }
   })();
 
-  /* -------- TELA ENVELOPE: arrastar pra cima pra abrir -------- */
-  const envelopeScene = document.getElementById('envelopeScene');
-  const envelopeFlap = document.getElementById('envelopeFlap');
-  const letterPeek = document.querySelector('#envelopeStage .letter-peek');
-  const envelopeStage = document.getElementById('envelopeStage');
-  const bigLetterStage = document.getElementById('bigLetterStage');
-  const envelopeHint = document.getElementById('envelopeHint');
-  const envelopeContinueBtn = document.getElementById('envelopeContinueBtn');
-  const ENVELOPE_DRAG_MAX = 120;
-  let eDragging=false, eStartY=0, eCurOffset=0, eOpened=false;
-
-  function setEnvelopeProgress(percent){
-    envelopeFlap.style.transform = `rotateX(${percent*175}deg)`;
-    letterPeek.style.transform = `translateY(${88 - percent*78}%)`;
-    envelopeScene.style.transform = `translateY(${-percent*14}px)`;
-  }
-  function envelopeDown(e){
-    if(eOpened) return;
-    eDragging=true; envelopeScene.classList.add('dragging');
-    eStartY = (e.touches? e.touches[0].clientY : e.clientY) + eCurOffset;
-    e.preventDefault();
-  }
-  function envelopeMove(e){
-    if(!eDragging||eOpened) return;
-    const y = eStartY - (e.touches? e.touches[0].clientY : e.clientY);
-    eCurOffset = Math.max(0, Math.min(ENVELOPE_DRAG_MAX, y));
-    setEnvelopeProgress(eCurOffset/ENVELOPE_DRAG_MAX);
-  }
-  function envelopeUp(){
-    if(!eDragging||eOpened) return;
-    eDragging=false; envelopeScene.classList.remove('dragging');
-    const percent = eCurOffset/ENVELOPE_DRAG_MAX;
-    if(percent >= 0.65){
-      eOpened = true;
-      setEnvelopeProgress(1);
-      envelopeHint.textContent = 'a carta abriu ♥';
-      setTimeout(()=>{
-        envelopeStage.classList.add('hide');
-        bigLetterStage.classList.add('show');
-        envelopeContinueBtn.classList.add('show');
-      }, 550);
-    } else {
-      eCurOffset = 0; setEnvelopeProgress(0);
-    }
-  }
-  envelopeScene.addEventListener('mousedown', envelopeDown);
-  envelopeScene.addEventListener('touchstart', envelopeDown, {passive:false});
-  window.addEventListener('mousemove', envelopeMove);
-  window.addEventListener('touchmove', envelopeMove, {passive:false});
-  window.addEventListener('mouseup', envelopeUp);
-  window.addEventListener('touchend', envelopeUp);
-  envelopeContinueBtn.addEventListener('click', ()=> advance(150));
-
   /* -------- TELA 4: pull tab + timeline reveal -------- */
   const pullTrack = document.getElementById('pullTrack');
   const pullHandle = document.getElementById('pullHandle');
@@ -4220,6 +4319,184 @@
   window.addEventListener('mouseup', pullUp);
   window.addEventListener('touchend', pullUp);
   timelineContinueBtn.addEventListener('click', ()=> advance(150));
+
+  /* -------- TELA CARTA: envelope + carta (animação cinematográfica) -------- */
+  (function(){
+    const envelopeScene = document.getElementById('envelopeScene');
+    const envelopeFlap = document.getElementById('envelopeFlap');
+    const letterPeek = document.querySelector('#envelopeStage .letter-peek');
+    const envelopeStage = document.getElementById('envelopeStage');
+    const envelopeGlow = document.getElementById('envelopeGlow');
+    const envelopeParticles = document.getElementById('envelopeParticles');
+    const swipeGuide = document.getElementById('swipeGuide');
+    const bigLetterStage = document.getElementById('bigLetterStage');
+    const envelopeHint = document.getElementById('envelopeHint');
+    const letterContinueBtn = document.getElementById('letterContinueBtn');
+    if(!envelopeScene) return;
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DRAG_MAX = 130;          // distância "crua" de arraste até completar
+    const OPEN_THRESHOLD = 0.42;   // progresso mínimo pra soltar e abrir sozinho
+
+    let dragging = false;
+    let settling = false;   // spring voltando/avançando sozinho após soltar
+    let opened = false;
+    let pointerId = null;
+    let startY = 0;
+    let rawOffset = 0;      // distância crua arrastada (antes da resistência)
+    let target = 0;         // progresso alvo (0..1) já com curva de resistência
+    let current = 0;        // progresso suavizado (spring) realmente aplicado
+    let lastCurrent = 0;    // pra calcular velocidade/tilt
+    let settleTo = 0;       // 0 (fecha) ou 1 (abre) — destino do spring ao soltar
+    let rafId = null;
+
+    // curva de resistência: início e fim mais "duros", meio mais fluido (smoothstep)
+    function resistanceCurve(p){
+      p = Math.max(0, Math.min(1, p));
+      return p*p*(3 - 2*p);
+    }
+
+    function applyVisual(progress, tilt){
+      const flapAngle = progress*175;
+      envelopeFlap.style.transform = `rotateX(${flapAngle}deg)`;
+      letterPeek.style.transform = `translateY(${88 - progress*78}%)`;
+      const lift = -progress*16;
+      const recede = progress>0.72 ? (progress-0.72)/0.28 : 0; // recuo no fim, sensação de profundidade
+      const scale = 1 - recede*0.06;
+      const backZ = -recede*40;
+      envelopeScene.style.transform =
+        `translateY(${lift}px) translateZ(${backZ}px) scale(${scale}) rotateZ(${tilt}deg)`;
+      envelopeGlow.style.opacity = Math.min(1, progress*1.3);
+      if(progress>0.06){ envelopeStage.classList.add('opening'); }
+      else{ envelopeStage.classList.remove('opening'); }
+      if(swipeGuide){ swipeGuide.style.opacity = String(Math.max(0, 1 - progress*1.8)); }
+    }
+
+    function spawnHeart(){
+      if(reduceMotion) return;
+      const el = document.createElement('span');
+      el.className = 'ep-particle';
+      el.textContent = Math.random() < 0.6 ? '♥' : '✦';
+      const dx = (Math.random()-0.5) * 90;
+      const dy = -(60 + Math.random()*70);
+      const rot = (Math.random()-0.5) * 40;
+      const size = 10 + Math.random()*8;
+      el.style.fontSize = size+'px';
+      envelopeParticles.appendChild(el);
+      const anim = el.animate([
+        { transform:'translate(0px,0px) rotate(0deg) scale(.4)', opacity:0 },
+        { transform:`translate(${dx*0.4}px,${dy*0.5}px) rotate(${rot*0.5}deg) scale(1)`, opacity:.85, offset:.35 },
+        { transform:`translate(${dx}px,${dy}px) rotate(${rot}deg) scale(.85)`, opacity:0 }
+      ], { duration: 1400 + Math.random()*600, easing:'cubic-bezier(.22,.72,.24,1)' });
+      anim.onfinish = () => el.remove();
+    }
+
+    let particleTimer = null;
+    function startParticles(){
+      if(reduceMotion) return;
+      let count = 0;
+      particleTimer = setInterval(()=>{
+        spawnHeart();
+        count++;
+        if(count>=9){ clearInterval(particleTimer); particleTimer=null; }
+      }, 160);
+    }
+
+    function stopLoop(){
+      if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+    }
+
+    function loop(){
+      lastCurrent = current;
+      const springStrength = dragging ? 0.32 : 0.11; // mais responsivo ao arrastar, mais suave no settle
+      current += (target - current) * springStrength;
+      const velocity = current - lastCurrent;
+      const tilt = Math.max(-7, Math.min(7, velocity * 55));
+      if(Math.abs(current-target) < 0.0009 && Math.abs(velocity) < 0.0006 && !dragging){
+        current = target;
+        applyVisual(current, 0);
+        rafId = null;
+        if(settling){
+          settling = false;
+          if(settleTo === 1){ finishOpening(); }
+        }
+        return;
+      }
+      applyVisual(current, tilt);
+      rafId = requestAnimationFrame(loop);
+    }
+    function ensureLoop(){ if(!rafId){ rafId = requestAnimationFrame(loop); } }
+
+    function onPointerDown(e){
+      if(opened) return;
+      dragging = true; settling = false;
+      envelopeScene.classList.add('dragging');
+      pointerId = e.pointerId;
+      if(envelopeScene.setPointerCapture){ try{ envelopeScene.setPointerCapture(pointerId); }catch(_){} }
+      startY = e.clientY + rawOffset;
+      e.preventDefault();
+      ensureLoop();
+    }
+    function onPointerMove(e){
+      if(!dragging || opened) return;
+      const y = startY - e.clientY;
+      rawOffset = Math.max(0, Math.min(DRAG_MAX, y));
+      target = resistanceCurve(rawOffset / DRAG_MAX);
+      ensureLoop();
+    }
+    function onPointerUp(){
+      if(!dragging || opened) return;
+      dragging = false;
+      envelopeScene.classList.remove('dragging');
+      settling = true;
+      if(target >= OPEN_THRESHOLD){
+        opened = true;
+        target = 1; settleTo = 1;
+        if(envelopeHint) envelopeHint.textContent = 'abrindo...';
+      } else {
+        rawOffset = 0;
+        target = 0; settleTo = 0;
+      }
+      ensureLoop();
+    }
+
+    function finishOpening(){
+      if(envelopeHint) envelopeHint.textContent = 'a carta abriu ♥';
+      startParticles();
+      setTimeout(()=>{
+        envelopeStage.classList.add('hide');
+        bigLetterStage.classList.add('show');
+      }, reduceMotion ? 80 : 480);
+    }
+
+    function openInstant(){
+      if(opened) return;
+      opened = true;
+      if(reduceMotion){
+        target = current = 1;
+        applyVisual(1,0);
+        finishOpening();
+        return;
+      }
+      settling = true; settleTo = 1; target = 1;
+      ensureLoop();
+    }
+
+    envelopeScene.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove, {passive:true});
+    window.addEventListener('pointerup', onPointerUp, {passive:true});
+    window.addEventListener('pointercancel', onPointerUp, {passive:true});
+
+    // fallback: clique/tap simples também abre, caso o usuário não arraste
+    envelopeScene.addEventListener('click', function(){
+      if(opened || dragging) return;
+      openInstant();
+    });
+
+    if(letterContinueBtn){
+      letterContinueBtn.addEventListener('click', ()=> advance(150));
+    }
+  })();
 
   document.getElementById('addEvent').addEventListener('click', ()=>{
     const timeline = document.getElementById('timeline');
