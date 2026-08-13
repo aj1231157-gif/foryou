@@ -1023,11 +1023,12 @@
     .letter-body{ font-size:15.5px; }
     .hold-heart{ width:86px; height:86px; }
     .dinner-table{ padding:30px 14px 20px; }
-    .tl-card{ width:calc(100% - 50px); }
-    .tl-item, .tl-item.right{ flex-direction:row; }
+    .tl-card{ width:calc(100% - 40px); }
+    .tl-item, .tl-item.right{ flex-direction:row; align-items:flex-start; }
     .tl-item.right .tl-card-inner{ text-align:left; flex-direction:row; }
     .timeline::before{ left:16px; }
-    .tl-dot{ margin-right:16px; }
+    .tl-dot{ order:-1; margin-left:8px; margin-right:16px; margin-top:22px; }
+    .tl-spacer{ display:none; }
     .pull-track{ width:200px; }
     #screenNav{ right:8px; gap:9px; }
   }
@@ -2137,7 +2138,7 @@
             </div>
           </div>
           <div class="tl-dot"></div>
-          <div style="width:calc(50% - 44px);"></div>
+          <div class="tl-spacer" style="width:calc(50% - 44px);"></div>
         </div>
         <div class="tl-item tl-hidden right">
           <div class="tl-card">
@@ -2154,7 +2155,7 @@
             </div>
           </div>
           <div class="tl-dot"></div>
-          <div style="width:calc(50% - 44px);"></div>
+          <div class="tl-spacer" style="width:calc(50% - 44px);"></div>
         </div>
       </div>
       <button class="add-event" id="addEvent">+ adicionar outro momento</button>
@@ -4519,7 +4520,7 @@
         </div>
       </div>
       <div class="tl-dot"></div>
-      <div style="width:calc(50% - 44px);"></div>
+      <div class="tl-spacer" style="width:calc(50% - 44px);"></div>
     `;
     timeline.appendChild(item);
   });
