@@ -82,6 +82,10 @@
   .screen[data-screen="0"]{
     background:radial-gradient(circle at 15% 25%, rgba(107,42,58,0.4), transparent 55%), var(--bg);
   }
+  /* TELA 4 (Nossa História) tem mais conteúdo que cabe na tela: usar alinhamento no topo
+     em vez de centralizado, senão o overflow com justify-content:center corta o início
+     do conteúdo e ele fica inacessível ao rolar (bug de flexbox + overflow). */
+  .screen[data-screen="4"]{ justify-content:flex-start; padding-top:70px; }
   .screen[data-screen="0"] .screen-inner{
     text-align:left; max-width:480px; margin-left:clamp(16px,9vw,130px); margin-right:auto;
   }
@@ -657,12 +661,12 @@
     content:""; position:absolute; left:50%; top:0; bottom:0; width:2px;
     background:linear-gradient(var(--purple),var(--pink)); transform:translateX(-50%);
   }
-  .tl-item{ display:flex; align-items:center; margin-bottom:56px; position:relative; opacity:1; transform:none; transition:opacity .6s ease, transform .6s ease; }
+  .tl-item{ display:flex; align-items:center; margin-bottom:34px; position:relative; opacity:1; transform:none; transition:opacity .6s ease, transform .6s ease; }
   .tl-item.tl-hidden{ opacity:0; transform:translateY(24px); }
   .tl-item.right{ flex-direction:row-reverse; }
   .tl-card{
     width:calc(50% - 44px); background:var(--card); border:1px solid var(--card-border);
-    border-radius:16px; padding:18px 20px; backdrop-filter:blur(6px);
+    border-radius:16px; padding:14px 16px; backdrop-filter:blur(6px);
   }
   .tl-card-inner{ display:flex; gap:12px; align-items:flex-start; text-align:left; }
   .tl-item.right .tl-card-inner{ text-align:right; flex-direction:row-reverse; }
@@ -2113,10 +2117,10 @@
       <h2 class="section-title">Nossa História</h2>
       <p class="section-sub">arraste o coração pra reviver nossos momentos</p>
 
-      <div class="pull-wrap">
+      <div class="pull-wrap" style="display:flex; flex-direction:column; align-items:center; margin-bottom:34px;">
         <div class="pull-track" id="pullTrack">
           <div class="pull-fill" id="pullFill"></div>
-          <div class="pull-label">arraste →</div>
+          <div class="pull-label" id="pullLabel">arraste →</div>
           <div class="pull-handle" id="pullHandle">♥</div>
         </div>
       </div>
@@ -2130,15 +2134,15 @@
                 <span class="tl-photo-plus">+</span>
               </div>
               <div class="tl-text">
-                <div class="tl-date">31 de janeiro de 2025</div>
-                <div class="tl-title">Primeira viagem</div>
-                <div class="tl-desc">Nossa viagem inesquecível, por muitas que virão!</div>
+                <div class="tl-date">31 de agosto de 2022</div>
+                <div class="tl-title">Primeiro beijo</div>
               </div>
             </div>
           </div>
           <div class="tl-dot"></div>
           <div style="width:calc(50% - 44px);"></div>
         </div>
+
         <div class="tl-item tl-hidden right">
           <div class="tl-card">
             <div class="tl-card-inner">
@@ -2147,9 +2151,93 @@
                 <span class="tl-photo-plus">+</span>
               </div>
               <div class="tl-text">
+                <div class="tl-date">1 de agosto de 2024</div>
+                <div class="tl-title">Querer namorar</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div style="width:calc(50% - 44px);"></div>
+        </div>
+
+        <div class="tl-item tl-hidden">
+          <div class="tl-card">
+            <div class="tl-card-inner">
+              <div class="tl-photo" onclick="this.querySelector('input').click()">
+                <input type="file" accept="image/*" style="display:none">
+                <span class="tl-photo-plus">+</span>
+              </div>
+              <div class="tl-text">
+                <div class="tl-date">5 de agosto</div>
+                <div class="tl-title">Aniversário da Branca</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div style="width:calc(50% - 44px);"></div>
+        </div>
+
+        <div class="tl-item tl-hidden right">
+          <div class="tl-card">
+            <div class="tl-card-inner">
+              <div class="tl-photo" onclick="this.querySelector('input').click()">
+                <input type="file" accept="image/*" style="display:none">
+                <span class="tl-photo-plus">+</span>
+              </div>
+              <div class="tl-text">
+                <div class="tl-date">11 de agosto</div>
+                <div class="tl-title">Aniversário do Preto</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div style="width:calc(50% - 44px);"></div>
+        </div>
+
+        <div class="tl-item tl-hidden">
+          <div class="tl-card">
+            <div class="tl-card-inner">
+              <div class="tl-photo" onclick="this.querySelector('input').click()">
+                <input type="file" accept="image/*" style="display:none">
+                <span class="tl-photo-plus">+</span>
+              </div>
+              <div class="tl-text">
+                <div class="tl-date">16 de agosto de 2024</div>
+                <div class="tl-title">...</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div style="width:calc(50% - 44px);"></div>
+        </div>
+
+        <div class="tl-item tl-hidden right">
+          <div class="tl-card">
+            <div class="tl-card-inner">
+              <div class="tl-photo" onclick="this.querySelector('input').click()">
+                <input type="file" accept="image/*" style="display:none">
+                <span class="tl-photo-plus">+</span>
+              </div>
+              <div class="tl-text">
+                <div class="tl-date">21 de agosto de 2024</div>
+                <div class="tl-title">Pedido de namoro</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div style="width:calc(50% - 44px);"></div>
+        </div>
+
+        <div class="tl-item tl-hidden">
+          <div class="tl-card">
+            <div class="tl-card-inner">
+              <div class="tl-photo" onclick="this.querySelector('input').click()">
+                <input type="file" accept="image/*" style="display:none">
+                <span class="tl-photo-plus">+</span>
+              </div>
+              <div class="tl-text">
                 <div class="tl-date">31 de agosto de 2025</div>
-                <div class="tl-title">Uma data especial</div>
-                <div class="tl-desc">Um dia muito importante pra nós dois.</div>
+                <div class="tl-title">Aliança</div>
               </div>
             </div>
           </div>
@@ -2157,6 +2245,7 @@
           <div style="width:calc(50% - 44px);"></div>
         </div>
       </div>
+
       <button class="add-event" id="addEvent">+ adicionar outro momento</button>
       <button class="reveal-btn" id="timelineContinueBtn">continuar ♥</button>
     </div>
@@ -4277,6 +4366,7 @@
   const pullTrack = document.getElementById('pullTrack');
   const pullHandle = document.getElementById('pullHandle');
   const pullFill = document.getElementById('pullFill');
+  const pullLabel = document.getElementById('pullLabel');
   const timelineContinueBtn = document.getElementById('timelineContinueBtn');
   let pDragging=false, pStartX=0, pCurX=0, pDone=false;
   function getPullMax(){ return pullTrack.clientWidth - pullHandle.offsetWidth - 6; }
@@ -4306,7 +4396,7 @@
     const max = getPullMax();
     if(pCurX >= max*0.85){
       pDone=true; pCurX=max; pullSetX(max);
-      document.querySelector('.pull-label').textContent = 'revivendo nossa história...';
+      pullLabel.textContent = 'revivendo nossa história...';
       revealTimeline();
     } else {
       pCurX=0; pullSetX(0);
@@ -4514,7 +4604,6 @@
           <div class="tl-text">
             <div class="tl-date">data</div>
             <div class="tl-title">novo momento</div>
-            <div class="tl-desc">conte o que aconteceu</div>
           </div>
         </div>
       </div>
