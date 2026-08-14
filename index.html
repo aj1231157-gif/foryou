@@ -766,10 +766,10 @@
 
   /* ---------- TELA 5: DESPEDIDA (foto de fundo + coração de vinho) ---------- */
   :root{
-    --wine:#A13752;
-    --wine-deep:#6B1F30;
-    --wine-glow:rgba(161,55,82,0.5);
-    --wine-dim:rgba(190,120,132,0.65);
+    --wine:#590503;
+    --wine-deep:#590503;
+    --wine-glow:rgba(89,5,3,0.5);
+    --wine-dim:rgba(89,5,3,0.65);
   }
   .screen[data-screen="5"]{
     background:
@@ -801,12 +801,12 @@
     50%{ filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5)) drop-shadow(0 0 16px var(--wine-glow)); }
   }
   .finale-thanks{
-    font-family:'Work Sans',sans-serif; font-size:13px; letter-spacing:.3px; color:var(--wine-dim);
+    font-family:'Work Sans',sans-serif; font-size:13px; letter-spacing:.3px; color:rgba(254,233,217,0.55);
     text-shadow:0 1px 8px rgba(0,0,0,0.6); margin:0 0 6px;
   }
   .finale-name{
     font-family:'Alex Brush',cursive; font-weight:400;
-    font-size:clamp(30px,5.5vw,36px); color:var(--wine); letter-spacing:.5px;
+    font-size:clamp(30px,5.5vw,36px); color:#fee9d9; letter-spacing:.5px;
     text-shadow:0 2px 14px rgba(0,0,0,0.5);
     margin:0 0 34px; line-height:1;
   }
@@ -815,12 +815,37 @@
     display:flex; align-items:center; gap:14px; width:100%; max-width:300px;
     margin:0 0 22px;
   }
-  .finale-divider .line{ flex:1; height:1px; background:rgba(161,55,82,0.35); }
+  .finale-divider .line{ flex:1; height:1px; background:rgba(89,5,3,0.35); }
   .finale-divider .heart{ font-size:11px; color:var(--wine); }
 
   .finale-heart-hint{
-    font-family:'Work Sans',sans-serif; font-size:12px; color:var(--wine-dim); letter-spacing:.3px;
-    text-shadow:0 1px 8px rgba(0,0,0,0.6); margin:0;
+    font-family:'Work Sans',sans-serif; font-size:12px; color:#ff2b4d; letter-spacing:.3px;
+    text-shadow:
+      0 0 4px #ff2b4d,
+      0 0 10px rgba(255,43,77,0.85),
+      0 0 18px rgba(217,4,41,0.7),
+      0 0 34px rgba(180,0,30,0.55),
+      0 0 55px rgba(140,0,20,0.4);
+    margin:0;
+    animation:ledHintPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes ledHintPulse{
+    0%,100%{
+      text-shadow:
+        0 0 4px #ff2b4d,
+        0 0 10px rgba(255,43,77,0.85),
+        0 0 18px rgba(217,4,41,0.7),
+        0 0 34px rgba(180,0,30,0.55),
+        0 0 55px rgba(140,0,20,0.4);
+    }
+    50%{
+      text-shadow:
+        0 0 6px #ff2b4d,
+        0 0 16px rgba(255,43,77,1),
+        0 0 28px rgba(217,4,41,0.9),
+        0 0 48px rgba(180,0,30,0.7),
+        0 0 75px rgba(140,0,20,0.55);
+    }
   }
 
   @keyframes confettiFall{
@@ -2706,8 +2731,8 @@
         <div class="finale-heart-hold" id="reliveHeart">
           <svg viewBox="0 0 32 29.6">
             <defs><clipPath id="reliveClip"><rect id="reliveFillRect" x="0" y="29.6" width="32" height="0"/></clipPath></defs>
-            <path fill="none" stroke="#A13752" stroke-width="1.4" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,14.2,16,21.6 c6.5-7.4,16-12.2,16-21.6C32,3.8,28.2,0,23.6,0z"/>
-            <path fill="#6B1F30" clip-path="url(#reliveClip)" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,14.2,16,21.6 c6.5-7.4,16-12.2,16-21.6C32,3.8,28.2,0,23.6,0z"/>
+            <path fill="none" stroke="#590503" stroke-width="1.4" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,14.2,16,21.6 c6.5-7.4,16-12.2,16-21.6C32,3.8,28.2,0,23.6,0z"/>
+            <path fill="#fee9d9" clip-path="url(#reliveClip)" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,14.2,16,21.6 c6.5-7.4,16-12.2,16-21.6C32,3.8,28.2,0,23.6,0z"/>
           </svg>
         </div>
 
@@ -4988,13 +5013,30 @@
       labelEl.textContent = `Pergunta ${Math.min(qIndex+1, QUIZ_QUESTIONS.length)} de ${QUIZ_QUESTIONS.length}`;
     }
 
+    // Embaralha um array (Fisher-Yates) sem alterar o original
+    function shuffleArray(arr){
+      const a = arr.slice();
+      for(let i = a.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // Guarda, para a pergunta atual, a ordem embaralhada das opções
+    // (cada item tem {opt, originalIndex}), usada para saber qual botão
+    // corresponde à resposta correta original.
+    let currentShuffled = null;
+
     function renderQuestion(){
       updateProgress();
       const item = QUIZ_QUESTIONS[qIndex];
 
       if(item.type === 'choice'){
-        const optsHtml = item.options.map((opt,i)=>
-          `<button class="quiz-opt" data-i="${i}">${opt}</button>`
+        const indexed = item.options.map((opt,i)=>({ opt, originalIndex:i }));
+        currentShuffled = shuffleArray(indexed);
+        const optsHtml = currentShuffled.map((entry,i)=>
+          `<button class="quiz-opt" data-i="${i}">${entry.opt}</button>`
         ).join('');
         bodyEl.innerHTML = `
           <div class="quiz-q-card">
@@ -5025,12 +5067,15 @@
       const allBtns = Array.from(bodyEl.querySelectorAll('.quiz-opt'));
       allBtns.forEach(b=> b.classList.add('disabled'));
 
-      if(i === item.correctIndex){
+      // Acha a posição (após embaralhar) que corresponde à resposta certa original
+      const correctShuffledIndex = currentShuffled.findIndex(entry=> entry.originalIndex === item.correctIndex);
+
+      if(i === correctShuffledIndex){
         btn.classList.add('correct');
         score++;
       } else {
         btn.classList.add('wrong');
-        allBtns[item.correctIndex].classList.add('correct');
+        allBtns[correctShuffledIndex].classList.add('correct');
       }
       setTimeout(goNext, 850);
     }
